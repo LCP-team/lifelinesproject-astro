@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Add type for the country data
+type CountryData = {
+  countryName: string;
+  countryCode: string;
+  content: (string | string[])[];
+};
+
+const defaultMessage = "We're currently working to verify crisis support resources for this country and are reaching out to local authorities and organizations.";
+
+// This function tells Astro which pages to generate
+export async function getStaticPaths() {
+  // Load the data
+  const data = (await import('../../data/countries.json')).default as CountryData[];
+
+  console.log('Total countries in JSON:', data.length);
+  
+  // Filter out countries with missing or empty country codes
+  const validCountries = data.filter((country) => {
+    const isValid = country.countryCode && country.countryCode.trim() !== '';
+    if (!isValid) {
+      console.warn('Skipping country with invalid code:', country.countryName);
+    }
+    return isValid;
+  });
+
+  console.log('Valid countries to generate:', validCountries.length);
+  
+  return validCountries.map((country) => {
+    const code = country.countryCode.toLowerCase().trim();
+    console.log('Creating page for:', code, '-', country.countryName);
+    
+    return {
+      params: { code },
+      props: { countryData: country },
+    };
+  });
+}
+
+// Get props with proper typing
+type Props = {
+  countryData: CountryData;
+};
+
+const { countryData } = Astro.props as Props;
+
+const hasValidContent =
+  countryData.content &&
+  countryData.content.length > 0 &&
+  !(countryData.content.length === 1 && countryData.content[0] === "");
+
+const normalizedContent: string[][] = hasValidContent
+  ? countryData.content.map((item) =>
+      Array.isArray(item) ? item : [item]
+    )
+  : [];
+
+if (!countryData) {
+  return Astro.redirect('/404');
+}
+
+const title = `${countryData.countryName} - Crisis Hotlines`;
+
+// Get flag SVG URL from country-flag-icons CDN
+const flagUrl = `https://purecatamphetamine.github.io/country-flag-icons/3x2/${countryData.countryCode.toUpperCase()}.svg`;
+---
+
+<BaseLayout title={title}>
+  <div class="container mx-auto px-3 lg:px-32 pb-8">
+    <a href="/" class="text-primary underline font-medium inline-block mt-10">
+      <span class="mr-2">←</span>
+      Back to Lifelines country list
+    </a>
+
+    <h3 class="text-2xl font-medium mt-10">
+      Suicide and Crisis Prevention Hotlines
+    </h3>
+
+    <div class="flex flex-row items-center mt-4 gap-3">
+      <img 
+        src={flagUrl} 
+        alt={`${countryData.countryName} flag`}
+        class="w-16 h-auto shadow-md rounded"
+      />
+      <h1 class="text-4xl font-bold">
+        {countryData.countryName}
+      </h1>
+      <span class="text-sm text-gray-500">
+        {countryData.countryCode}
+      </span>
+    </div>
+
+    <div class="border-t w-full my-6 border-gray-400"></div>
+
+    <ul class="list-disc text-lg space-y-4 ms-5 md:ms-0 external-link">
+      {hasValidContent ? (
+        normalizedContent.map((group, i) => (
+          <li>
+            {group.map((line, j) => (
+              <p set:html={line}></p>
+            ))}
+          </li>
+        ))
+      ) : (
+        <>
+          <p>{defaultMessage}</p>
+          <p>
+            Know a verified hotline here? Please share it with us at{" "}
+            <a href="mailto:connect@lifelinesproject.com">
+              connect@lifelinesproject.com
+            </a>{" "}
+            - it may help someone find support when they need it most.
+          </p>
+        </>
+      )}
+    </ul>
+
+    <div class="border-t w-full my-24 border-gray-400"></div>
+
+    <p class="text-md">
+        Our crisis and suicide hotline directory is always growing and improving. 
+        If you notice something missing or incorrect, or know a resource we should include, 
+        we would truly appreciate you letting us know at 
+        <a href="/mailto:connect@lifelinesproject.com" class="underline font-medium">
+          connect@lifelinesproject.com
+        </a>.
+        Together, we can help make support easier to find.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .external-link :global(a) {
+    text-decoration: underline;
+    color: #5372a5;
+  }
+</style>

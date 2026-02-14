@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+}
+
+* {
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    background: #fafafc;
+}
+
+a {
+    @apply underline;
+}

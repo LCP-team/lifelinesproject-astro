@@ -1,0 +1,24 @@
+{
+  "name": "lifelinesproject",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/vue": "^5.1.4",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "country-flag-icons": "^1.6.13",
+    "country-list": "^2.4.1",
+    "libphonenumber-js": "^1.12.36",
+    "tailwindcss": "^4.1.18",
+    "vue": "^3.5.27"
+  },
+  "devDependencies": {
+    "@types/country-list": "^2.1.4"
+  }
+}

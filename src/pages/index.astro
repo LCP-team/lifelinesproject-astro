@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
+
+type Country = {
+  name: string;
+  code: string;
+};
+
+// Install this for country names: npm install country-list
+import { getName } from 'country-list';
+
+// Get all country codes
+const allCountryCodes = getCountries();
+
+/* Map to typed array with names */
+const countries: Country[] = allCountryCodes.flatMap((code) => {
+  const name = getName(code);
+  return name ? [{ name, code }] : [];
+});
+
+/* Sort alphabetically */
+countries.sort((a, b) => a.name.localeCompare(b.name));
+
+/* Group countries by first letter */
+const grouped: Record<string, Country[]> = countries.reduce((acc, country: Country) => {
+  const letter = country.name[0].toUpperCase();
+  if (!acc[letter]) acc[letter] = [];
+  acc[letter].push(country);
+  return acc;
+}, {} as Record<string, Country[]>);
+
+const topCountriesCodes = ["CA", "US", "KR"];
+const topCountries = countries.filter(c => topCountriesCodes.includes(c.code));
+---
+
+<BaseLayout title="Home">
+  <div class="relative top-0 pb-8">
+    <img
+      src="/images/Map-min.png"
+      alt=""
+      class="absolute w-full top-0 left-0 opacity-20 z-0"
+    />
+	<div class="px-3 md:px-auto z-10 relative pb-8 text-center">
+		<h1 class="text-3xl my-10 text-blue-500 text-center font-medium">
+			Crisis and Suicide Prevention Hotlines in The World
+		</h1>
+		<div class="container lg:px-64 mx-auto">
+			<div
+			class="p-1 border-4 border-gray-200 bg-white shadow-lg rounded-lg img-container"
+			>
+			<img src="/images/Map-min.png" alt="" />
+			</div>
+		</div>
+	
+		<div class="container mx-auto">
+
+			<div class="flex flex-col gap-3 mx-5 lg:mx-24 text-center lg:text-left">
+				<p class="text-2xl font-medium mt-10">LifeLines Project</p>
+				<p>
+					The LifeLines Project began with a simple moment - a student searching for answers after losing a friend to suicide.
+				</p>
+				<p>
+					What followed was a classroom conversation that revealed something deeper: many people are struggling in silence, unsure where to turn, or believing help doesn't exist.
+				</p>
+				<p>
+					LifeLines was created to change that.
+				</p>
+				<p>
+					We gather crisis and suicide support resources from around the world into one accessible place, so anyone, anywhere can find help when they need it.
+				</p>
+				<p>
+					Because sometimes, the most powerful thing we can offer is a connection to someone who listens.
+				</p>
+				<!-- <p class="font-bold mt-5">Note:</p>
+				<p class="ml-auto text-md">
+					Our crisis and suicide hotline directory is always growing and improving. If you notice something missing or incorrect, or know a resource we should include, we would truly appreciate you letting us know at connect@lifelinesproject.com. Together, we can help make support easier to find.
+				</p> -->
+
+				<span class="px-5 mt-4 w-full">
+					<span class="border-t w-full block border-gray-200"></span>
+				</span>
+
+				<p class="text-left">
+					<b>Help us keep LifeLines accurate and growing</b> <br>
+					If you know of a crisis or suicide hotline not listed on our site, please email <a href="mailto:connect@lifelinesproject.com" class="font-bold underline">connect@lifelinesproject.com</a>
+				</p>
+				<p class="text-left">
+					And if someone you know is struggling, please share LifeLines with them.
+				</p>
+				<p class="text-left">
+					Together, we can make reaching out a little easier.
+				</p>
+
+			</div>
+			
+			<span class="px-5 mt-4 w-full">
+				<span class="border-t w-full block border-gray-200"></span>
+			</span>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+				{topCountries.map(c => (
+					<a href={`/countries/${c.code.toLowerCase()}`} class="p-3 !no-underline bg-white rounded shadow flex items-center gap-3 hover:bg-gray-50 transition">
+						<img 
+							src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${c.code}.svg`}
+							alt={c.name}
+							class="w-8 h-auto shadow"
+						/>
+						<div class="flex flex-row gap-3 text-left">
+							<p class="font-bold flex-wrap text-left">{c.name}<span class="text-sm text-gray-500 ms-3">{c.code}</span></p>
+						</div>
+					</a>
+				))}
+			</div>
+
+			<span class="px-5 mt-4 w-full">
+				<span class="border-t w-full block border-gray-200"></span>
+			</span>
+
+			{Object.keys(grouped).sort().map((letter) => (
+				<section class="mb-10 flex flex-col">
+					<span class="text-xl font-semibold mb-4 border-2 border-blue-500 inline-block px-10 rounded-full me-auto">
+					{letter}
+					</span>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+					{grouped[letter].map((country) => (
+						<a href={`/countries/${country.code.toLowerCase()}`} class="p-3 !no-underline bg-white rounded shadow flex items-center gap-3 hover:bg-gray-50 transition">
+							<img 
+								src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${country.code}.svg`}
+								alt={country.name}
+								class="w-8 h-auto shadow"
+							/>
+							<p class="font-bold flex-wrap text-left">{country.name}<span class="text-sm text-gray-500 ms-3">{country.code}</span></p>
+						</a>
+					))}
+					</div>
+				</section>
+			))}
+
+	  	</div>
+	</div>
+  </div>
+</BaseLayout>

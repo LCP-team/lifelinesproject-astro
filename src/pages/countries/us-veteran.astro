@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Get flag SVG URL from country-flag-icons CDN
+const flagUrl = `https://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg`;
+---
+
+<BaseLayout title="US - Veterans">
+  <div class="container mx-auto px-3 lg:px-32 pb-8">
+    <a href="/veterans" class="text-primary underline font-medium inline-block mt-10">
+      <span class="mr-2">←</span>
+      Back to list
+    </a>
+
+    <h3 class="text-2xl font-medium mt-10">
+      Suicide and Crisis Prevention Hotlines
+    </h3>
+
+    <div class="flex flex-row items-center mt-4 gap-3">
+      <img 
+        src={flagUrl} 
+        alt={`United State flag`}
+        class="w-16 h-auto shadow-md rounded"
+      />
+      <h1 class="text-4xl font-bold">
+        United States
+      </h1>
+      <span class="text-sm text-gray-500">
+        US
+      </span>
+    </div>
+
+    <div class="border-t w-full my-6 border-gray-400"></div>
+
+    <ul class="list-disc text-lg space-y-4 ms-5 md:ms-0 external-link">
+        <li>
+          <a href="https://www.veteranscrisisline.net/">Veterans Crisis Line</a>
+        </li>
+        <li>
+          Call: Dial <a href="tel:988">988</a> then Press 1
+        </li>
+        <li>
+          Text: <a href="sms:838255">838255</a>
+        </li>
+    </ul>
+
+    <div class="border-t w-full my-24 border-gray-400"></div>
+
+    <p class="text-md">
+        Our crisis and suicide hotline directory is always growing and improving. 
+        If you notice something missing or incorrect, or know a resource we should include, 
+        we would truly appreciate you letting us know at 
+        <a href="/mailto:connect@lifelinesproject.com" class="underline font-medium">
+            connect@lifelinesproject.com
+        </a>.
+        Together, we can help make support easier to find.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .external-link :global(a) {
+    text-decoration: underline;
+    color: #5372a5;
+  }
+</style>
