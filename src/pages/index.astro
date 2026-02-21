@@ -19,6 +19,9 @@ const countries: Country[] = allCountryCodes.flatMap((code) => {
   return name ? [{ name, code }] : [];
 });
 
+const topCountriesCodes = ["CA", "US", "KR"];
+const topCountries = countries.filter(c => topCountriesCodes.includes(c.code));
+
 /* Sort alphabetically */
 countries.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -29,9 +32,6 @@ const grouped: Record<string, Country[]> = countries.reduce((acc, country: Count
   acc[letter].push(country);
   return acc;
 }, {} as Record<string, Country[]>);
-
-const topCountriesCodes = ["CA", "US", "KR"];
-const topCountries = countries.filter(c => topCountriesCodes.includes(c.code));
 ---
 
 <BaseLayout title="Home">
@@ -43,7 +43,7 @@ const topCountries = countries.filter(c => topCountriesCodes.includes(c.code));
     />
 	<div class="px-3 md:px-auto z-10 relative pb-8 text-center">
 		<h1 class="text-3xl my-10 text-blue-500 text-center font-medium">
-			Crisis and Suicide Prevention Hotlines in The World
+			Crisis and Suicide Hotlines in The World
 		</h1>
 		<div class="container lg:px-64 mx-auto">
 			<div
@@ -83,7 +83,7 @@ const topCountries = countries.filter(c => topCountriesCodes.includes(c.code));
 
 				<p class="text-left">
 					<b>Help us keep LifeLines accurate and growing</b> <br>
-					If you know of a crisis or suicide hotline not listed on our site, please email <a href="mailto:connect@lifelinesproject.com" class="font-bold underline">connect@lifelinesproject.com</a>
+					If you know of a crisis or suicide hotline not listed on our site, please email <a href="mailto:connect@lifelinesproject.com" class="font-bold underline text-primary">connect@lifelinesproject.com</a>
 				</p>
 				<p class="text-left">
 					And if someone you know is struggling, please share LifeLines with them.
