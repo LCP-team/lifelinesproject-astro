@@ -1,11 +1,11 @@
 <nav class="navbar">
-  <div class="brand flex flex-row items-center">
-    <a href="/"><img src="/images/logo.jpg" class="h-14 w-auto" /></a>
-    <div class="flex flex-col">
-      <p class="f-amaranth text-xl font-medium text-primary">Lifelines Project</p>
-      <p class="text-sm opacity-50">Help should be easy to find</p>
-    </div>
-  </div>
+  <a class="brand flex flex-row items-center no-underline!" href="/">
+    <img src="/images/logo.jpg" class="h-14 w-auto" />
+      <div class="flex flex-col">
+        <p class="f-amaranth text-xl font-medium text-primary">Canadians Abroad</p>
+        <p class="text-sm opacity-50">Help should be easy to find</p>
+      </div>
+  </a>
 
   <button class="burger" id="burger" aria-label="Toggle menu">
     <span></span>
@@ -14,11 +14,13 @@
   </button>
 
   <div class="nav-links" id="navLinks">
-    <a href="/">Crisis and Suicide Hotlines</a>
-    <a href="/veterans">Veterans</a>
-    <a href="https://lifelinesproject.substack.com/" target="_blank">Resources</a>
-    <a href="/about">About & Contact</a>
-    <a href="https://www.google.com" class="!underline ms-auto xl:ms-0">Leave site</a>
+    <a href="/crisishotline">Crisis and Suicide Hotlines</a>
+    <a href="/community">Community</a>
+    <!-- <a href="/veterans">Veterans</a> -->
+    <!-- <a href="https://lifelinesproject.substack.com/" target="_blank">Resources</a> -->
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="https://www.google.com" class="underline ms-auto xl:ms-0">Leave site</a>
   </div>
 </nav>
 
@@ -33,11 +35,6 @@
     position: sticky;
     top: 0;
     z-index: 99;
-  }
-
-  .brand a {
-    font-weight: 700;
-    font-size: 1.2rem;
   }
 
   .nav-links {

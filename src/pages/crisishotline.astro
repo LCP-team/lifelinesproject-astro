@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
+
+type Country = {
+  name: string;
+  code: string;
+};
+
+// Install this for country names: npm install country-list
+import { getName } from 'country-list';
+
+// Get all country codes
+const allCountryCodes = getCountries();
+
+/* Map to typed array with names */
+const countries: Country[] = allCountryCodes.flatMap((code) => {
+  const name = getName(code);
+  return name ? [{ name, code }] : [];
+});
+
+const topCountriesCodes = ["CA", "US"];
+const topCountries = countries.filter(c => topCountriesCodes.includes(c.code));
+
+/* Sort alphabetically */
+countries.sort((a, b) => a.name.localeCompare(b.name));
+
+/* Group countries by first letter */
+const grouped: Record<string, Country[]> = countries.reduce((acc, country: Country) => {
+  const letter = country.name[0].toUpperCase();
+  if (!acc[letter]) acc[letter] = [];
+  acc[letter].push(country);
+  return acc;
+}, {} as Record<string, Country[]>);
+---
+
+<BaseLayout title="Home">
+  <div class="relative top-0 pb-8">
+    <img
+      src="/images/Map-min.png"
+      alt=""
+      class="absolute w-full top-0 left-0 opacity-20 z-0"
+    />
+	<div class="px-3 md:px-auto z-10 relative pb-8 text-center">
+		<div class="container mt-5 lg:px-64 mx-auto">
+			<div
+				class="p-1 border-4 border-gray-200 bg-white shadow-lg rounded-lg img-container"
+				>
+				<img src="/images/Map-min.png" alt="" />
+			</div>
+		</div>
+	
+		<div class="container mx-auto">
+			<div class="flex flex-col gap-3 mx-5 lg:mx-24 text-center">
+
+				<h1 class="text-3xl mt-10 text-blue-500 font-medium">
+					Crisis and Suicide Hotlines
+				</h1>
+				<p class="text-xl font-medium">
+					If you are in immediate danger, contact local emergency services.
+				</p>
+				<p class="text-lg mt-5">
+					If you are in crisis or feeling overwhelmed, support is available. You do not have to handle this alone.
+					<br><br>
+					Below is a list of verified crisis and suicide hotlines organized by country. Please choose the country where you are located to find local support services available to you.
+				</p>
+
+			</div>
+			
+			<span class="px-5 mt-4 w-full">
+				<span class="border-t w-full block border-gray-200"></span>
+			</span>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+				{topCountries.map(c => (
+					<a href={`/countries/${c.code.toLowerCase()}`} class="p-3 !no-underline bg-white rounded shadow flex items-center gap-3 hover:bg-gray-50 transition">
+						<img 
+							src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${c.code}.svg`}
+							alt={c.name}
+							class="w-8 h-auto shadow"
+						/>
+						<div class="flex flex-row gap-3 text-left">
+							<p class="font-bold flex-wrap text-left">{c.name}<span class="text-sm text-gray-500 ms-3">{c.code}</span></p>
+						</div>
+					</a>
+				))}
+			</div>
+
+			<span class="px-5 mt-4 w-full">
+				<span class="border-t w-full block border-gray-200"></span>
+			</span>
+
+			{Object.keys(grouped).sort().map((letter) => (
+				<section class="mb-10 flex flex-col">
+					<span class="text-xl font-semibold mb-4 border-2 border-blue-500 inline-block px-10 rounded-full me-auto">
+					{letter}
+					</span>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+					{grouped[letter].map((country) => (
+						<a href={`/countries/${country.code.toLowerCase()}`} class="p-3 !no-underline bg-white rounded shadow flex items-center gap-3 hover:bg-gray-50 transition">
+							<img 
+								src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${country.code}.svg`}
+								alt={country.name}
+								class="w-8 h-auto shadow"
+							/>
+							<p class="font-bold flex-wrap text-left">{country.name}<span class="text-sm text-gray-500 ms-3">{country.code}</span></p>
+						</a>
+					))}
+					</div>
+				</section>
+			))}
+
+	  	</div>
+	</div>
+  </div>
+</BaseLayout>

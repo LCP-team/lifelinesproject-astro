@@ -3,25 +3,24 @@
     "countryName": "Canada",
     "countryCode": "CA",
     "content": [
-      "National emergency number: <a href=\"tel:911\"><b>911</b></a>",
-      "Talk Suicide Canada - Dial <a href=\"tel:18334564566\"><b>1-833-456-4566</b></a> for 24/7 crisis support",
-      "Talk Suicide Canada - Text <a href=\"tel:45645\"><b>45645</b></a> for text support; available 4 pm to midnight ET",
-      "In Quebec - Dial <b>1-866-APPELLE (277-3553)</b> for 24/7 crisis support",
-      "In Quebec - Text <a href=\"tel:535353\"><b>535353</b></a> for 24/7 text support",
-      "In Quebec - For 24/7 chat support, visit <a href='//suicide.ca' target='_blank'>suicide.ca</a>",
-      "Kids Help Phone - 24/7 text support: Text CONNECT to <a href=\"tel:686868\"><b>686868</b></a>"
+      "If you are in emotional distress, struggling, or thinking about suicide, you are not alone. Free, confidential support is available 24/7. Canada Suicide Crisis Helpline, Call or Text: <a href=\"tel:988\"><b>988</b></a>",
+      "<b>Veterans & Military Support</b>, Language Support, Deaf & Hard of Hearing Support are also available at <a href=\"tel:988\"><b>988</b></a>",
+      "<b>Youth & Young People</b>, Online support and chat: <a href=\"https://kidshelpphone.ca\" target=\"_blank\">https://kidshelpphone.ca</a>",
+      "<b>Indigenous Support</b>, Hope for Wellness Help Line (Canada) Call or Chat: <a href=\"tel:+18552423310\"><b>1-855-242-3310</b></a>. Providing support for First Nations, Inuit, and Métis individuals in times of crisis.",
+      "If you’re in immediate danger, please call <a href=\"tel:911\"><b>911</b></a>."
     ]
   },
   {
     "countryName": "United States of America",
     "countryCode": "US",
     "content": [
-      "National emergency number: <a href=\"tel:911\"><b>911</b></a>",
-      "Suicide and Crisis Lifeline: <a href=\"tel:988\"><b>988</b></a>",
-      "Accessible by phone or text, 24/7 support in English or Spanish, 24/7 support for deaf or hard-of-hearing individuals; learn more at <a href='//988lifeline.org' target='_blank'>988lifeline.org</a>.",
-      "For TTY Users: Use your preferred relay service or dial 711 then <a href=\"tel:988\"><b>988</b></a>",
-      "Online chat: Visit <a href='//988lifeline.org' target='_blank'>988lifeline.org</a>",
-      "Crisis Text Line: 24/7 text support: Text HOME to <a href=\"tel:741741\"><b>741741</b></a>"
+      "If you are in emotional distress, struggling, or thinking about suicide, you are not alone. Free, confidential support is available 24/7.",
+      "<b>National Suicide & Crisis Lifeline</b>, Call or Text: <a href=\"tel:988\"><b>988</b></a>, Chat: <a href=\"https://988lifeline.org\" target=\"_blank\">https://988lifeline.org</a>",
+      "<b>Veterans & Military Support</b>, Call: <a href=\"tel:988\"><b>988</b></a> then press 1, Text: 838255, Chat: <a href=\"https://www.veteranscrisisline.net\" target=\"_blank\">https://www.veteranscrisisline.net</a>",
+      "<b>Spanish Language Support</b>, Call or Text: <a href=\"tel:988\"><b>988</b></a> and request Spanish.",
+      "<b>Deaf & Hard of Hearing</b>, Use videophone services or dial <a href=\"tel:711\"><b>711</b></a> (relay) then <a href=\"tel:988\"><b>988</b></a>.",
+      "<b>LGBTQ+ Youth Support (under 25)</b>, <b>The Trevor Project</b>, Call: <a href=\"tel:+18664887386\"><b>1-866-488-7386</b></a>, Text: START to 678678, Chat: <a href=\"https://www.thetrevorproject.org\" target=\"_blank\">https://www.thetrevorproject.org</a>",
+      "If you’re in immediate danger, please call <a href=\"tel:911\"><b>911</b></a>."
     ]
   },
   {
