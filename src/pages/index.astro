@@ -4,12 +4,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Canada Abroad">
-	<div class="min-h-screen relative pb-8">
+	<div class="relative">
 		<div class="h-screen overflow-hidden relative z-0">
 			<div class="bg-gray-950 opacity-50 absolute w-full h-full z-10"></div>
 			<img src="/images/uncompressed/flag.jpg" class="w-auto h-full lg:w-full lg:h-auto object-cover absolute xl:-top-40 z-0 transform scale-x-[-1]" />
 			<div class="grid grid-cols-1 lg:grid-cols-2 w-full h-full relative z-20">
-				<div class="flex flex-col gap-2 justify-center items-left lg:pl-20 px-5 text-white text-lg text-shadow-lg">
+				<div class="flex flex-col gap-2 justify-center items-left lg:pl-20 px-5 text-white text-sm md:text-md xl:text-lg text-shadow-lg">
 					<p class="text-3xl font-bold">LifeLines</p>
 					<p class="text-xl font-bold mb-5">Support and community for Canadians abroad.</p>
 					<p>
@@ -44,11 +44,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				<li>Not replacing 988 or other crisis and suicide hotlines</li>
 				<li>Not a crisis service. If you are in immediate danger, please contact your local emergency services</li>
 			</ul>
+		</div>
 
-			<span class="px-5 w-full">
-				<span class="border-t w-full block border-gray-200"></span>
-			</span>
+		<div class="h-[50vh] overflow-hidden relative">
+			<img src="/images/uncompressed/sakura.jpg" class="w-full h-auto object-cover bg-center absolute z-0" />
+		</div>
 
+		<div class="w-full container mx-auto px-5 md:px-32 xl:px-64 py-20">
 			<p class="text-2xl font-medium mb-3 mt-10 text-primary">Why LifeLines Exists</p>
 			<div class="flex flex-col gap-4">
 				<p>
@@ -67,6 +69,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					To provide a clear, reliable directory of crisis and emotional support resources for Canadians abroad — and to foster a small, supportive community where people can connect and share their experiences.
 				</p>
 			</div>
+		</div>
+
+		<div class="h-[70vh] overflow-hidden relative">
+			<img src="/images/uncompressed/hoodie.jpg" class="w-auto h-full lg:w-full lg:h-auto object-cover absolute z-0" />
 		</div>
 	</div>
 </BaseLayout>
