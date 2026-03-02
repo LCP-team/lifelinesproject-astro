@@ -3,8 +3,70 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 ---
 
-<BaseLayout title="Home">
-	<div class="min-h-screen">
-		home page in progress
+<BaseLayout title="Canada Abroad">
+	<div class="min-h-screen relative pb-8">
+		<div class="h-screen overflow-hidden relative z-0">
+			<div class="bg-gray-950 opacity-50 absolute w-full h-full z-10"></div>
+			<img src="/images/uncompressed/flag.jpg" class="w-auto h-full lg:w-full lg:h-auto object-cover absolute xl:-top-40 z-0 transform scale-x-[-1]" />
+			<div class="grid grid-cols-1 lg:grid-cols-2 w-full h-full relative z-20">
+				<div class="flex flex-col gap-2 justify-center items-left lg:pl-20 px-5 text-white text-lg text-shadow-lg">
+					<p class="text-3xl font-bold">LifeLines</p>
+					<p class="text-xl font-bold mb-5">Support and community for Canadians abroad.</p>
+					<p>
+						Living outside Canada can be exciting — and sometimes isolating. <br>
+						LifeLines is a trusted, centralized directory of crisis and suicide hotlines and essential support resources for Canadians living overseas.
+					</p>
+					<p>
+						We also believe support goes beyond emergencies. That's why LifeLines is building an online community space where Canadians abroad can connect, share experiences, and support one another.
+					</p>
+					<p>
+						Because no matter where you live in the world, you're still connected.
+					</p>
+					<div class="flex flex-col md:flex-row gap-4 mt-10 text-center">
+						<a href="/crisishotline" class="no-underline! px-5 py-2 bg-white rounded-xl text-gray-900 font-medium">Find Crisis Support</a>
+						<a href="/community" class="no-underline! px-5 py-2 bg-white rounded-xl text-gray-900 font-medium">Join the Community</a>
+					</div>
+				</div>
+				<div></div>
+			</div>
+		</div>
+		<div class="w-full container mx-auto px-5 md:px-32 xl:px-64 py-20">
+			<p class="text-2xl font-medium mb-3">What <b class="text-primary">LifeLines</b> is</p>
+			<ul class="list-disc list-outside pl-8 text-lg">
+				<li>A trusted directory of verified crisis and suicide hotlines, organized by country and availability</li>
+				<li>Essential support information for Canadians overseas</li>
+				<li>A moderated online space for Canadians overseas to connect and support one another</li>
+			</ul>
+			
+			<p class="text-2xl font-medium mb-3 mt-10">What <b class="text-primary">LifeLines</b> is NOT</p>
+			<ul class="list-disc list-outside pl-8 text-lg mb-10">
+				<li>Not therapy</li>
+				<li>Not replacing 988 or other crisis and suicide hotlines</li>
+				<li>Not a crisis service. If you are in immediate danger, please contact your local emergency services</li>
+			</ul>
+
+			<span class="px-5 w-full">
+				<span class="border-t w-full block border-gray-200"></span>
+			</span>
+
+			<p class="text-2xl font-medium mb-3 mt-10 text-primary">Why LifeLines Exists</p>
+			<div class="flex flex-col gap-4">
+				<p>
+					An estimated <b>2.7 million Canadians live outside of Canada</b> — nearly 1 in 10 citizens. While living abroad can be exciting and fulfilling, it can also bring culture shock, isolation, and moments of unexpected emotional strain.
+				</p>
+				<p>
+					When you’re far from home, it isn’t always clear where to find trustworthy crisis or mental health support in your current country. Searching during a difficult moment can feel overwhelming.
+				</p>
+				<p>
+					<b>LifeLines exists to make that search easier.</b>
+				</p>
+				<p class="mt-5">
+					Our mission is simple:
+				</p>
+				<p>
+					To provide a clear, reliable directory of crisis and emotional support resources for Canadians abroad — and to foster a small, supportive community where people can connect and share their experiences.
+				</p>
+			</div>
+		</div>
 	</div>
 </BaseLayout>
