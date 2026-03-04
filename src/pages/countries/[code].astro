@@ -57,9 +57,9 @@ const normalizedContent: string[][] = hasValidContent
     )
   : [];
 
-if (!countryData) {
-  return Astro.redirect('/404');
-}
+// if (!countryData) {
+//   return Astro.redirect('/404');
+// }
 
 const title = `${countryData.countryName} - Crisis Hotlines`;
 
@@ -94,32 +94,22 @@ const flagUrl = `https://purecatamphetamine.github.io/country-flag-icons/3x2/${c
 
 
     <ul class="list-disc text-lg space-y-4 ms-5 md:ms-0 external-link">
-      {hasValidContent ? (
+      {hasValidContent && (
         <>
           <div class="border-t w-full my-6 border-gray-400"></div>
-          normalizedContent.map((group, i) => (
+          {normalizedContent.map((group, i) => (
             <li>
               {group.map((line, j) => (
                 <p set:html={line}></p>
               ))}
             </li>
-          ))
-        </>
-      ) : (
-        <>
-          <p>{defaultMessage}</p>
-          <p>
-            Know a verified hotline here? Please share it with us at{" "}
-            <a href="mailto:connect@lifelinesproject.com" class="text-primary">
-              connect@lifelinesproject.com
-            </a>{" "}
-            - it may help someone find support when they need it most.
-          </p>
+          ))}
+          <div class="mb-24"></div>
         </>
       )}
     </ul>
 
-    <div class="border-t w-full my-24 border-gray-400"></div>
+    <div class="border-t w-full border-gray-400"></div>
 
     <div class="[&>p]:mb-4">
       <h3 class="text-lg font-bold mb-6">Status</h3>
