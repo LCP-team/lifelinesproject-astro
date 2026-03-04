@@ -7,13 +7,14 @@ const props = defineProps<{
 }>();
 
 const grouped = ref(props.grouped);
+const search = ref("");
+
 const resultLength = computed(() => {
   return Object.entries(grouped.value).reduce(
     (acc, [, countries]) => acc + countries.length,
     0,
   );
 });
-const search = ref("");
 
 let timeout: number;
 const filter = () => {
