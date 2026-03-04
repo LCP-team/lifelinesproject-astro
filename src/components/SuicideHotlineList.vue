@@ -28,7 +28,7 @@ const filter = () => {
   timeout = setTimeout(() => {
     let filtered: Record<string, Country[]> = {};
 
-    const groups = Object.entries(grouped.value);
+    const groups = Object.entries(props.grouped);
     for (const [letter, countries] of groups) {
       const results = countries.filter((c) => {
         return (
