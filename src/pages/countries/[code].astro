@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getName } from 'country-list';
 
 // Add type for the country data
 type CountryData = {
@@ -7,8 +8,6 @@ type CountryData = {
   countryCode: string;
   content: (string | string[])[];
 };
-
-const defaultMessage = "We're currently working to verify crisis support resources for this country and are reaching out to local authorities and organizations.";
 
 // This function tells Astro which pages to generate
 export async function getStaticPaths() {
@@ -44,7 +43,23 @@ type Props = {
   countryData: CountryData;
 };
 
-const { countryData } = Astro.props as Props;
+const props = Astro.props as Props;
+let countryData: CountryData;
+
+if (props.countryData) {
+  countryData = props.countryData;
+} else {
+  const code = props.params.code;
+  countryData = {
+    countryCode: code,
+    countryName: getName(code),
+    content: [],
+  }
+}
+
+// if (!countryData) {
+//   return Astro.redirect('/404');
+// }
 
 const hasValidContent =
   countryData.content &&
@@ -56,10 +71,6 @@ const normalizedContent: string[][] = hasValidContent
       Array.isArray(item) ? item : [item]
     )
   : [];
-
-// if (!countryData) {
-//   return Astro.redirect('/404');
-// }
 
 const title = `${countryData.countryName} - Crisis Hotlines`;
 
