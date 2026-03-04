@@ -13,27 +13,49 @@ type CountryData = {
 export async function getStaticPaths() {
   // Load the data
   const data = (await import('../../data/countries.json')).default as CountryData[];
+  const dataByCode = data.reduce((acc, country) => {
+    const code = country.countryCode.toLowerCase().trim();
+    if (!acc[code]) {
+      acc[code] = country;
+    } else {
+      console.warn('Duplicate country code:', code);
+    }
 
-  console.log('Total countries in JSON:', data.length);
+    return acc;
+  }, {} as Record<string, CountryData>);
+
+  // console.log('Total countries in JSON:', data.length);
   
   // Filter out countries with missing or empty country codes
-  const validCountries = data.filter((country) => {
-    const isValid = country.countryCode && country.countryCode.trim() !== '';
-    if (!isValid) {
-      console.warn('Skipping country with invalid code:', country.countryName);
-    }
-    return isValid;
-  });
+  // const validCountries = data.filter((country) => {
+  //   const isValid = country.countryCode && country.countryCode.trim() !== '';
+  //   if (!isValid) {
+  //     console.warn('Skipping country with invalid code:', country.countryName);
+  //   }
+  //   return isValid;
+  // });
 
-  console.log('Valid countries to generate:', validCountries.length);
+  // console.log('Valid countries to generate:', validCountries.length);
   
-  return validCountries.map((country) => {
-    const code = country.countryCode.toLowerCase().trim();
-    console.log('Creating page for:', code, '-', country.countryName);
-    
+  // return validCountries.map((country) => {
+  //   const code = country.countryCode.toLowerCase().trim();
+  //   console.log('Creating page for:', code, '-', country.countryName);
+  //   
+  //   return {
+  //     params: { code },
+  //     props: { countryData: country },
+  //   };
+  // });
+
+  return getCountries().flatMap((code) => {
+    const name = getName(code);
     return {
       params: { code },
-      props: { countryData: country },
+      props: { countryData: {
+        countryCode: code,
+        countryName: name,
+        content: dataByCode[code]?.content ?? [],
+      } as CountryData },
     };
   });
 }
