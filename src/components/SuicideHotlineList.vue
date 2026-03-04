@@ -43,7 +43,7 @@ const filter = () => {
     }
 
     grouped.value = filtered;
-  }, 300);
+  }, 120);
 };
 </script>
 
