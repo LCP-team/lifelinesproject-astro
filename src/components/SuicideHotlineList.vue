@@ -51,7 +51,7 @@ const filter = () => {
   <div class="mt-8 mb-4 max-w-4xl mx-auto">
     <input
       v-model.trim="search"
-      @input="filter"
+      @keyup="filter"
       type="search"
       placeholder="Search for a country"
       class="w-full px-6 py-4 border border-gray-300 rounded-4xl shadow-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-md"
