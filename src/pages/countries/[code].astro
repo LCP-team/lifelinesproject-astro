@@ -48,8 +48,10 @@ export async function getStaticPaths() {
   //   };
   // });
 
-  return getCountries().flatMap((code) => {
+  return getCountries().flatMap((_code) => {
+    const code = _code.toLowerCase().trim();
     const name = getName(code);
+    
     return {
       params: { code },
       props: { countryData: {
