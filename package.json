@@ -15,6 +15,7 @@
     "country-flag-icons": "^1.6.13",
     "country-list": "^2.4.1",
     "libphonenumber-js": "^1.12.36",
+    "swiper": "^12.1.2",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.27",
     "vue3-carousel": "^0.17.0"
