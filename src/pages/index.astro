@@ -1,4 +1,5 @@
 ---
+import Carousel from "../components/Carousel.vue";
 import NonProfit from "../components/NonProfit.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
@@ -125,19 +126,20 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </li>
       </ol>
     </div>
+
+    <Carousel client:only />
+
     <div class="w-full container mx-auto px-5 md:px-32 xl:px-64 py-20">
       <p class="text-2xl font-medium mb-3">
         What <b class="text-primary">LifeLines</b> is
       </p>
       <ul class="list-disc list-outside pl-8 text-lg">
         <li>
-          A trusted directory of verified crisis and suicide hotlines, organized
-          by country and availability
+          A trusted directory of crisis and suicide hotlines organized by country
         </li>
-        <li>Essential support information for Canadians overseas</li>
+        <li>A supportive online community for Canadians living abroad</li>
         <li>
-          A moderated online space for Canadians overseas to connect and support
-          one another
+          A peer-support network of Canadian volunteers offering compassionate listening
         </li>
       </ul>
 
@@ -145,52 +147,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         What <b class="text-primary">LifeLines</b> is NOT
       </p>
       <ul class="list-disc list-outside pl-8 text-lg mb-10">
-        <li>Not therapy</li>
-        <li>Not replacing 988 or other crisis and suicide hotlines</li>
+        <li>LifeLines is not therapy and does not replace professional mental health services.</li>
+        <li>It is also not a crisis service.</li>
         <li>
-          Not a crisis service. If you are in immediate danger, please contact
-          your local emergency services
+          If you are in immediate danger or experiencing a life-threatening emergency, please contact your local emergency services or a crisis hotline in your country.
         </li>
       </ul>
-    </div>
-
-    <div class="h-[50vh] overflow-hidden relative">
-      <img
-        src="/images/uncompressed/sakura.jpg"
-        class="w-full h-auto object-cover bg-center absolute z-0"
-      />
-    </div>
-
-    <div class="w-full container mx-auto px-5 md:px-32 xl:px-64">
-      <div class="py-20">
-        <p class="text-2xl font-medium mb-3 mt-10 text-primary">
-          Why LifeLines Exists
-        </p>
-        <div class="flex flex-col gap-4">
-          <p>
-            An estimated <b>2.7 million Canadians live outside of Canada</b> — nearly
-            1 in 10 citizens. While living abroad can be exciting and fulfilling,
-            it can also bring culture shock, isolation, and moments of unexpected
-            emotional strain.
-          </p>
-          <p>
-            When you’re far from home, it isn’t always clear where to find
-            trustworthy crisis or mental health support in your current country.
-            Searching during a difficult moment can feel overwhelming.
-          </p>
-          <p>
-            <b>LifeLines exists to make that search easier.</b>
-          </p>
-          <p class="mt-5">Our mission is simple:</p>
-          <p>
-            To provide a clear, reliable directory of crisis and emotional
-            support resources for Canadians abroad — and to foster a small,
-            supportive community where people can connect and share their
-            experiences.
-          </p>
-        </div>
-      </div>
-      <NonProfit />
     </div>
 
     <img src="/images/uncompressed/hoodie.jpg" class="w-full object-contain" />
