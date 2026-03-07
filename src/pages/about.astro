@@ -1,15 +1,18 @@
 ---
+import NonProfit from "../components/NonProfit.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="About">
-  <div class="md:px-auto z-10 relative pb-8 text-center">
+  <div class="md:px-auto z-10 relative pb-8">
     <img
       src="/images/uncompressed/waterfallmedium.jpg"
       class="w-full object-contain"
     />
     <div class="container px-3 md:px-32 lg:px-64 mx-auto">
-      <h1 class="text-3xl my-10 text-center font-medium">About LifeLines</h1>
+      <h1 class="text-3xl my-10 text-center font-medium text-center">
+        About LifeLines
+      </h1>
       <div class="text-left flex flex-col gap-3 mt-10">
         <p>
           <b>LifeLines</b> is a Canadian-founded global support platform for Canadians
@@ -61,7 +64,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <img src="/images/uncompressed/aidanalan.jpeg" class="w-full h-auto" />
       </div>
 
-      <h1 class="text-3xl my-10 text-center font-medium">Our Story</h1>
+      <h1 class="text-3xl my-10 text-center font-medium text-center">
+        Our Story
+      </h1>
       <div class="text-left flex flex-col gap-3 mt-10">
         <p>LifeLines began with lived experience.</p>
         <p>
@@ -132,9 +137,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           And support is within reach.
         </p>
       </div>
+
+      <NonProfit />
     </div>
   </div>
-  <div class="shadow-lg rounded-lg w-full mx-auto mt-10">
-    <img src="/images/uncompressed/chicken.jpg" class="w-full h-auto" />
-  </div>
+  <img
+    src="/images/uncompressed/chicken.jpg"
+    class="w-full h-auto object-contain"
+  />
 </BaseLayout>

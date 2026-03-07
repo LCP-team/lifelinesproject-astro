@@ -1,11 +1,12 @@
 ---
+import NonProfit from "../components/NonProfit.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Home">
-  <div class="md:px-auto z-10 relative pb-8">
+  <div class="md:px-auto z-10 relative">
     <img src="/images/uncompressed/cup2.jpg" class="w-full h-auto" />
-    <div class="container mx-auto px-8">
+    <div class="container mx-auto px-8 max-w-[1300px]">
       <h1 class="text-3xl mt-10 font-medium">Join Our Community</h1>
       <h2 class="text-xl font-light mb-5">
         LifeLines is building a private Canadians Abroad community on Telegram —
@@ -13,7 +14,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         information while living overseas.
       </h2>
 
-      <div class="flex flex-col gap-4 text-lg px-10 mb-10">
+      <div class="flex flex-col gap-4 text-lg mb-10">
         <p>
           This community is designed for everyday support: asking logistical
           questions, navigating life in a new country, understanding local
@@ -58,9 +59,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           care, and integrity.
         </p>
       </div>
+      <NonProfit />
     </div>
-  </div>
-  <div class="shadow-lg rounded-lg w-full mx-auto mt-10">
     <img src="/images/uncompressed/woman.jpg" class="w-full h-auto" />
   </div>
 </BaseLayout>
