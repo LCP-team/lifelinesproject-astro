@@ -6,6 +6,7 @@
       :loop="true"
       navigation
       :pagination="{ clickable: true }"
+      :autoplay="{ delay: 2000, disableOnInteraction: false }"
       class="my-swiper select-none"
     >
       <SwiperSlide v-for="(slide, index) in slides" :key="index">
