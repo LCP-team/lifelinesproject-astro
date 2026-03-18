@@ -7,7 +7,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === "production";
 const port = Number(process.env.PORT) || 3002;
 
-type RenderFn = (url: string) => Promise<{ html: string; title?: string; cacheControl?: string }>;
+type RenderFn = (
+  url: string,
+) => Promise<{ html: string; title?: string; cacheControl?: string }>;
 
 const app: Application = express();
 
@@ -17,7 +19,12 @@ let prodRender: RenderFn | undefined;
 
 if (isProd) {
   const { default: sirv } = await import("sirv");
-  app.use(sirv(path.join(__dirname, "dist/client"), { extensions: [] }));
+  app.use(
+    sirv(path.join(__dirname, "dist/client"), {
+      extensions: [],
+      maxAge: 2592000, // 30 days
+    }),
+  );
 
   prodTemplate = fs.readFileSync(
     path.join(__dirname, "dist/client/index.html"),
