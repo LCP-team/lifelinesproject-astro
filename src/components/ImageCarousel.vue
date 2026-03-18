@@ -10,35 +10,39 @@
       class="my-swiper select-none"
     >
       <SwiperSlide v-for="(slide, index) in slides" :key="index">
-        <img :src="'/images/uncompressed/' + slide.image" :alt="slide.alt" class="slide-image" />
+        <img
+          :src="'/images/uncompressed/' + slide.image"
+          :alt="slide.alt"
+          class="slide-image"
+        />
       </SwiperSlide>
     </Swiper>
   </div>
 </template>
 
 <script setup>
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-const modules = [Navigation, Pagination]
+const modules = [Navigation, Pagination];
 
 const slides = [
-  { image: 'sakura.jpg', alt: 'Slide 1' },
-  { image: 'fall.jpg', alt: 'Slide 2' },
-  { image: 'ganja.jpg', alt: 'Slide 3' },
-  { image: 'dock.jpg', alt: 'Slide 4' },
-  { image: 'lakekayak.jpg', alt: 'Slide 5' },
-  { image: 'lakecolorful.jpg', alt: 'Slide 6' },
-  { image: 'cityhorizon.jpg', alt: 'Slide 7' },
-  { image: 'firework.jpg', alt: 'Slide 8' },
-  { image: 'horizon.jpg', alt: 'Slide 9' },
-  { image: 'winterstorm.jpg', alt: 'Slide 10' },
-  { image: 'hug.jpg', alt: 'Slide 11' },
-  { image: 'ice.jpg', alt: 'Slide 12' },
-]
+  { image: "sakura.webp", alt: "Slide 1" },
+  { image: "fall.webp", alt: "Slide 2" },
+  { image: "ganja.webp", alt: "Slide 3" },
+  { image: "dock.webp", alt: "Slide 4" },
+  { image: "lakekayak.webp", alt: "Slide 5" },
+  { image: "lakecolorful.webp", alt: "Slide 6" },
+  { image: "cityhorizon.webp", alt: "Slide 7" },
+  { image: "firework.webp", alt: "Slide 8" },
+  { image: "horizon.webp", alt: "Slide 9" },
+  { image: "winterstorm.webp", alt: "Slide 10" },
+  { image: "hug.webp", alt: "Slide 11" },
+  { image: "ice.webp", alt: "Slide 12" },
+];
 </script>
 
 <style scoped>

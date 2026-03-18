@@ -8,8 +8,8 @@
           hotlines and resource information are currently limited to veterans
           located in <b>Canada</b> and <b>the United States</b>.
           <br />
-          Expansion to other countries is planned as we develop verified crisis resources
-          in each region.
+          Expansion to other countries is planned as we develop verified crisis
+          resources in each region.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
@@ -38,7 +38,7 @@
       <div class="h-screen mt-5">
         <div class="h-1/2 relative overflow-hidden">
           <img
-            src="/images/tentara.png"
+            src="/images/tentara.webp"
             alt=""
             class="absolute w-full h-auto -top:1/3 lg:-top-2/3"
           />
@@ -49,19 +49,21 @@
 </template>
 
 <script setup lang="ts">
-import { getCountries } from 'libphonenumber-js'
-import { getName } from 'country-list'
-import BaseLayout from '../layouts/BaseLayout.vue'
-import NonProfit from '../components/NonProfit.vue'
+import { getCountries } from "libphonenumber-js";
+import { getName } from "country-list";
+import BaseLayout from "../layouts/BaseLayout.vue";
+import NonProfit from "../components/NonProfit.vue";
 
-type Country = { name: string; code: string }
+type Country = { name: string; code: string };
 
-const allCountryCodes = getCountries()
+const allCountryCodes = getCountries();
 const countries: Country[] = allCountryCodes.flatMap((code) => {
-  const name = getName(code)
-  return name ? [{ name, code }] : []
-})
+  const name = getName(code);
+  return name ? [{ name, code }] : [];
+});
 
-const topCountriesCodes = ['CA', 'US']
-const topCountries = countries.filter((c) => topCountriesCodes.includes(c.code))
+const topCountriesCodes = ["CA", "US"];
+const topCountries = countries.filter((c) =>
+  topCountriesCodes.includes(c.code),
+);
 </script>

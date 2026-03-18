@@ -2,7 +2,7 @@
   <BaseLayout title="Crisis Hotlines">
     <div class="relative top-0 pb-8">
       <img
-        src="/images/Map-min.png"
+        src="/images/Map-min.webp"
         alt=""
         class="absolute w-full top-0 left-0 opacity-20 z-0"
       />
@@ -11,7 +11,7 @@
           <div
             class="p-1 border-4 border-gray-200 bg-white shadow-lg rounded-lg img-container"
           >
-            <img src="/images/Map-min.png" alt="" />
+            <img src="/images/Map-min.webp" alt="" />
           </div>
         </div>
 
@@ -27,16 +27,13 @@
               If you are in crisis or feeling overwhelmed, support is available.
               You do not have to handle this alone.
               <br />
-              Below is a list of verified crisis and suicide hotlines organized by country.
-              Please choose the country where you are located to find local support
-              services available to you.
+              Below is a list of verified crisis and suicide hotlines organized
+              by country. Please choose the country where you are located to
+              find local support services available to you.
             </p>
           </div>
 
-          <SuicideHotlineList
-            :topCountries="topCountries"
-            :grouped="grouped"
-          />
+          <SuicideHotlineList :topCountries="topCountries" :grouped="grouped" />
         </div>
       </div>
     </div>
@@ -44,35 +41,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { getCountries } from 'libphonenumber-js'
-import { getName } from 'country-list'
-import BaseLayout from '../layouts/BaseLayout.vue'
-import SuicideHotlineList from '../components/SuicideHotlineList.vue'
+import { computed } from "vue";
+import { getCountries } from "libphonenumber-js";
+import { getName } from "country-list";
+import BaseLayout from "../layouts/BaseLayout.vue";
+import SuicideHotlineList from "../components/SuicideHotlineList.vue";
 
-type Country = { name: string; code: string }
+type Country = { name: string; code: string };
 
-const allCountryCodes = getCountries()
+const allCountryCodes = getCountries();
 
 const countries: Country[] = allCountryCodes.flatMap((code) => {
-  const name = getName(code)
-  return name ? [{ name, code }] : []
-})
+  const name = getName(code);
+  return name ? [{ name, code }] : [];
+});
 
-const topCountriesCodes = ['CA', 'US']
-const topCountries = countries.filter((c) => topCountriesCodes.includes(c.code))
+const topCountriesCodes = ["CA", "US"];
+const topCountries = countries.filter((c) =>
+  topCountriesCodes.includes(c.code),
+);
 
-countries.sort((a, b) => a.name.localeCompare(b.name))
+countries.sort((a, b) => a.name.localeCompare(b.name));
 
 const grouped = computed<Record<string, Country[]>>(() => {
   return countries.reduce(
     (acc, country) => {
-      const letter = country.name[0].toUpperCase()
-      if (!acc[letter]) acc[letter] = []
-      acc[letter].push(country)
-      return acc
+      const letter = country.name[0].toUpperCase();
+      if (!acc[letter]) acc[letter] = [];
+      acc[letter].push(country);
+      return acc;
     },
     {} as Record<string, Country[]>,
-  )
-})
+  );
+});
 </script>

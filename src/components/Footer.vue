@@ -4,28 +4,50 @@
       <b>Important Information</b>
     </p>
     <p>
-      LifeLines does not provide direct crisis support. We are an independent directory created to help you find accurate, up-to-date crisis and suicide support services in the country where you live.
+      LifeLines does not provide direct crisis support. We are an independent
+      directory created to help you find accurate, up-to-date crisis and suicide
+      support services in the country where you live.
     </p>
     <p>
-      LifeLines Canada is a non-profit project. There is no cost to use LifeLines. Our crisis support directory is free to access, the Community forum is free to join, and one-on-one LifeLiner peer support is provided at no cost by trained and compassionate Canadian volunteers.
+      LifeLines Canada is a non-profit project. There is no cost to use
+      LifeLines. Our crisis support directory is free to access, the Community
+      forum is free to join, and one-on-one LifeLiner peer support is provided
+      at no cost by trained and compassionate Canadian volunteers.
     </p>
     <p>
-      Our goal is simple: to help Canadians abroad find support, connection, and trusted resources, wherever they are in the world.
+      Our goal is simple: to help Canadians abroad find support, connection, and
+      trusted resources, wherever they are in the world.
     </p>
   </div>
   <div class="w-full p-10 bg-[#e1e4ed]">
     <div class="grid grid-cols-1 md:grid-cols-2">
       <div class="flex flex-col gap-3">
-        <a href="https://www.facebook.com/lifelinescanada" target="_blank" class="flex flex-row items-center text-lg font-bold text-gray-700 no-underline!">
-          <img src="/images/fb.png" alt="linkedin" class="w-8 h-8 mr-5">
+        <a
+          href="https://www.facebook.com/lifelinescanada"
+          target="_blank"
+          class="flex flex-row items-center text-lg font-bold text-gray-700 no-underline!"
+        >
+          <img src="/images/fb.webp" alt="linkedin" class="w-8 h-8 mr-5" />
           LifeLines Canada
         </a>
-        <a href="https://x.com/LifeLinesCanada" target="_blank" class="flex flex-row items-center text-lg font-bold text-gray-700 no-underline!">
-          <img src="/images/x.png" alt="linkedin" class="w-8 h-8 mr-5">
+        <a
+          href="https://x.com/LifeLinesCanada"
+          target="_blank"
+          class="flex flex-row items-center text-lg font-bold text-gray-700 no-underline!"
+        >
+          <img src="/images/x.webp" alt="linkedin" class="w-8 h-8 mr-5" />
           @LifeLinesCanada
         </a>
-        <a href="https://www.linkedin.com/company/lifelinescanada" target="_blank" class="flex flex-row items-center text-lg font-bold text-gray-700 no-underline!">
-          <img src="/images/linkedin.png" alt="linkedin" class="w-8 h-8 mr-5">
+        <a
+          href="https://www.linkedin.com/company/lifelinescanada"
+          target="_blank"
+          class="flex flex-row items-center text-lg font-bold text-gray-700 no-underline!"
+        >
+          <img
+            src="/images/linkedin.webp"
+            alt="linkedin"
+            class="w-8 h-8 mr-5"
+          />
           LifeLines Canada
         </a>
       </div>
@@ -34,7 +56,9 @@
         <a href="" class="no-underline! text-gray-700">Privacy Policy</a>
         <a href="" class="no-underline! text-gray-700">Terms of Use</a>
         <a href="" class="no-underline! text-gray-700">Disclaimer</a>
-        <a href="" class="no-underline! text-gray-700">Do Not Sell My Personal Information</a>
+        <a href="" class="no-underline! text-gray-700"
+          >Do Not Sell My Personal Information</a
+        >
         <a href="" class="no-underline! text-gray-700">Cookie Policy</a>
         <a href="" class="no-underline! text-gray-700">Photo Credits</a>
       </div>
