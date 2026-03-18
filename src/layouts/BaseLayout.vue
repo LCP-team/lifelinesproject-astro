@@ -17,12 +17,16 @@ const props = defineProps<{
   title?: string;
 }>();
 
+const title = props.title
+  ? `${props.title} | LifeLines Canada`
+  : "LifeLines Canada";
+
 if (import.meta.env.SSR) {
   const ctx = useSSRContext<{ title?: string }>();
-  if (ctx && props.title) ctx.title = `${props.title} | LifeLines Canada`;
+  if (ctx) ctx.title = title;
 } else {
   onMounted(() => {
-    if (props.title) document.title = props.title;
+    document.title = title;
   });
 }
 </script>
