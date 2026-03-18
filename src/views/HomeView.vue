@@ -181,7 +181,7 @@
         </ol>
       </div>
 
-      <ImageCarousel />
+      <ImageCarousel v-if="isMounted" />
 
       <div class="w-full container mx-auto px-5 md:px-32 xl:px-64 py-20">
         <p class="text-2xl font-medium mb-3">
@@ -231,6 +231,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import BaseLayout from '../layouts/BaseLayout.vue'
 import ImageCarousel from '../components/ImageCarousel.vue'
+
+const isMounted = ref(false)
+onMounted(() => { isMounted.value = true })
 </script>

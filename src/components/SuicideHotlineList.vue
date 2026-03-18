@@ -16,7 +16,7 @@ const resultLength = computed(() => {
   );
 });
 
-let timeout: number;
+let timeout: ReturnType<typeof setTimeout>;
 const filter = () => {
   clearTimeout(timeout);
   const keyword = search.value.trim().toLowerCase();

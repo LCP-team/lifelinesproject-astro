@@ -1,6 +1,20 @@
-import { createApp } from 'vue'
+import { createSSRApp } from 'vue'
+import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 import App from './App.vue'
-import router from './router'
+import { routes } from './router/routes'
 import './styles/global.css'
 
-createApp(App).use(router).mount('#app')
+export function createApp() {
+  const app = createSSRApp(App)
+
+  const router = createRouter({
+    history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
+    routes,
+    scrollBehavior() {
+      return { top: 0 }
+    },
+  })
+
+  app.use(router)
+  return { app, router }
+}
