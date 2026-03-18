@@ -25,9 +25,6 @@
       <RouterLink to="/community" @click="closeMenu">Community</RouterLink>
       <RouterLink to="/about" @click="closeMenu">About</RouterLink>
       <RouterLink to="/contact" @click="closeMenu">Contact</RouterLink>
-      <a href="https://www.google.com" class="underline ms-auto xl:ms-0"
-        >Leave site</a
-      >
     </div>
   </nav>
 </template>
