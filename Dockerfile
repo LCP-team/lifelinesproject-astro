@@ -21,6 +21,7 @@ RUN npm ci --omit=dev
 
 # Copy built client/server bundles and compiled Express server
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/app.js ./app.js
 COPY --from=builder /app/server.js ./server.js
 
 # Copy public assets (images, etc.)

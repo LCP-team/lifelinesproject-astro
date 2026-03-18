@@ -9,6 +9,6 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src/**/*", "vite.config.ts", "server.ts"],
+  "include": ["src/**/*", "vite.config.ts", "app.ts"],
   "exclude": ["dist", "node_modules"]
 }
