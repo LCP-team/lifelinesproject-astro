@@ -4,7 +4,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import express from "express";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === "production";
-const port = Number(process.env.PORT) || 3e3;
+const port = Number(process.env.PORT) || 3002;
 async function bootstrap() {
   const app = express();
   let devVite;
