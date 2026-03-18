@@ -11,6 +11,7 @@
     "preview": "NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "country-flag-icons": "^1.6.13",
     "country-list": "^2.4.1",
     "express": "^4.18.2",
