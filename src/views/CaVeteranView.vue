@@ -46,6 +46,9 @@
 
 <script setup lang="ts">
 import BaseLayout from '../layouts/BaseLayout.vue'
+import { useCacheControl } from '../composables/useCacheControl'
+
+useCacheControl('public, s-maxage=3600, stale-while-revalidate=86400')
 </script>
 
 <style scoped>

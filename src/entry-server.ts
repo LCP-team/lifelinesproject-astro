@@ -3,6 +3,7 @@ import { createApp } from './main'
 
 interface SSRContext {
   title?: string
+  cacheControl?: string
 }
 
 export async function render(url: string) {
@@ -14,5 +15,5 @@ export async function render(url: string) {
   const ssrContext: SSRContext = {}
   const html = await renderToString(app, ssrContext)
 
-  return { html, title: ssrContext.title }
+  return { html, title: ssrContext.title, cacheControl: ssrContext.cacheControl }
 }

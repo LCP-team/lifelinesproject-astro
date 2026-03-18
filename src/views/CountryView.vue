@@ -67,6 +67,9 @@ import { useRoute } from 'vue-router'
 import { getName } from 'country-list'
 import BaseLayout from '../layouts/BaseLayout.vue'
 import countriesData from '../data/countries.json'
+import { useCacheControl } from '../composables/useCacheControl'
+
+useCacheControl('public, s-maxage=3600, stale-while-revalidate=86400')
 
 type CountryData = {
   countryName: string

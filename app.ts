@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === "production";
 const port = Number(process.env.PORT) || 3002;
 
-type RenderFn = (url: string) => Promise<{ html: string; title?: string }>;
+type RenderFn = (url: string) => Promise<{ html: string; title?: string; cacheControl?: string }>;
 
 const app: Application = express();
 
@@ -53,13 +53,17 @@ app.use("*", async (req, res) => {
       render = mod.render as RenderFn;
     }
 
-    const { html: appHtml, title } = await render(url);
+    const { html: appHtml, title, cacheControl } = await render(url);
     const finalHtml = template
       .replace("<!--app-title-->", title ?? "LifeLines Canada")
       .replace("<!--app-head-->", "")
       .replace("<!--app-html-->", appHtml);
 
-    res.status(200).set({ "Content-Type": "text/html" }).send(finalHtml);
+    const headers: Record<string, string> = { "Content-Type": "text/html" };
+    if (cacheControl) {
+      headers["Cache-Control"] = cacheControl;
+    }
+    res.status(200).set(headers).send(finalHtml);
   } catch (e: unknown) {
     if (devVite) devVite.ssrFixStacktrace(e as Error);
     console.error(e);

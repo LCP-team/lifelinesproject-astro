@@ -313,6 +313,9 @@
 import { ref, onMounted } from "vue";
 import BaseLayout from "../layouts/BaseLayout.vue";
 import ImageCarousel from "../components/ImageCarousel.vue";
+import { useCacheControl } from "../composables/useCacheControl";
+
+useCacheControl("public, s-maxage=3600, stale-while-revalidate=86400");
 
 const isMounted = ref(false);
 onMounted(() => {
