@@ -37,7 +37,7 @@ const closeMenu = () => {
 }
 </script>
 
-<style scoped>
+<style>
 .navbar {
   display: flex;
   justify-content: space-between;
