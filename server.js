@@ -43,8 +43,8 @@ async function bootstrap() {
         const mod = await devVite.ssrLoadModule("/src/entry-server.ts");
         render = mod.render;
       }
-      const { html: appHtml } = await render(url);
-      const finalHtml = template.replace("<!--app-head-->", "").replace("<!--app-html-->", appHtml);
+      const { html: appHtml, title } = await render(url);
+      const finalHtml = template.replace("<!--app-title-->", title ?? "LifeLines Canada").replace("<!--app-head-->", "").replace("<!--app-html-->", appHtml);
       res.status(200).set({ "Content-Type": "text/html" }).send(finalHtml);
     } catch (e) {
       if (devVite) devVite.ssrFixStacktrace(e);

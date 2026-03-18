@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
 const port = Number(process.env.PORT) || 3000
 
-type RenderFn = (url: string) => Promise<{ html: string }>
+type RenderFn = (url: string) => Promise<{ html: string; title?: string }>
 
 async function bootstrap() {
   const app = express()
@@ -54,8 +54,9 @@ async function bootstrap() {
         render = mod.render as RenderFn
       }
 
-      const { html: appHtml } = await render(url)
+      const { html: appHtml, title } = await render(url)
       const finalHtml = template
+        .replace('<!--app-title-->', title ?? 'LifeLines Canada')
         .replace('<!--app-head-->', '')
         .replace('<!--app-html-->', appHtml)
 
