@@ -3,24 +3,26 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@astrojs/vue": "^5.1.4",
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.17.1",
     "country-flag-icons": "^1.6.13",
     "country-list": "^2.4.1",
     "libphonenumber-js": "^1.12.36",
     "swiper": "^12.1.2",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.27",
+    "vue-router": "^4.5.0",
     "vue3-carousel": "^0.17.0"
   },
   "devDependencies": {
-    "@types/country-list": "^2.1.4"
+    "@types/country-list": "^2.1.4",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vue-tsc": "^2.2.10"
   }
 }

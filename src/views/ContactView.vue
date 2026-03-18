@@ -1,0 +1,87 @@
+<template>
+  <BaseLayout title="Contact">
+    <div class="px-3 md:px-auto z-10 relative pb-8 text-center">
+      <div class="container md:px-32 lg:px-64 mx-auto">
+        <div class="shadow-lg rounded-lg lg:w-2/3 mx-auto">
+          <img src="/images/cie.jpg" class="w-full h-auto" />
+        </div>
+        <div class="text-left flex flex-col gap-3 mt-10">
+          <p class="text-2xl font-bold">Contact Us</p>
+          <p>We'd love to hear from you.</p>
+          <p>
+            Whether you have a question, would like to suggest a resource, are
+            interested in partnering with LifeLines, or simply want to learn more
+            about our work, please reach out.
+          </p>
+          <p>
+            LifeLines is an independent initiative focused on supporting Canadians
+            abroad. We welcome collaboration, feedback, and connection.
+          </p>
+
+          <span class="px-5 mt-4 w-full">
+            <span class="border-t w-full block border-gray-200"></span>
+          </span>
+
+          <p class="text-xl font-bold">General Inquiries</p>
+          <p>For questions about LifeLines, the directory, or the community:</p>
+          <a href="mailto:connect@lifelinesproject.com" class="text-primary">
+            connect@lifelinesproject.com
+          </a>
+
+          <span class="px-5 mt-4 w-full">
+            <span class="border-t w-full block border-gray-200"></span>
+          </span>
+
+          <p class="text-xl font-bold">Resource Updates &amp; Corrections</p>
+          <p>
+            If you notice outdated information or would like to recommend a
+            verified crisis or support resource for inclusion, please contact us.
+            Accuracy and reliability are important to us.
+          </p>
+          <a href="mailto:support@lifelinesproject.com" class="text-primary">
+            support@lifelinesproject.com
+          </a>
+
+          <span class="px-5 mt-4 w-full">
+            <span class="border-t w-full block border-gray-200"></span>
+          </span>
+
+          <p class="text-xl font-bold">Partnerships &amp; Media</p>
+          <p>
+            If you represent an organization, government office, or community
+            group and are interested in collaboration:
+          </p>
+          <a href="mailto:letsconnect@lifelinesproject.com" class="text-primary">
+            letsconnect@lifelinesproject.com
+          </a>
+
+          <span class="px-5 mt-4 w-full">
+            <span class="border-t w-full block border-gray-200"></span>
+          </span>
+
+          <p class="text-xl font-bold">Important Notice</p>
+          <p>
+            LifeLines is NOT a crisis service and does not provide direct
+            counseling or emergency support.
+          </p>
+          <p>
+            If you are in immediate danger or experiencing a crisis, please
+            contact local emergency services in your country or access a verified
+            crisis hotline listed in our Crisis Resources section.
+          </p>
+
+          <NonProfit />
+        </div>
+      </div>
+    </div>
+
+    <div class="shadow-lg rounded-lg w-full mx-auto mt-5">
+      <img src="/images/uncompressed/march.jpg" class="w-full h-auto" />
+    </div>
+  </BaseLayout>
+</template>
+
+<script setup lang="ts">
+import BaseLayout from '../layouts/BaseLayout.vue'
+import NonProfit from '../components/NonProfit.vue'
+</script>
