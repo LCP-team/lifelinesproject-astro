@@ -52,15 +52,9 @@
         </a>
       </div>
 
-      <div class="flex flex-col gap-3 text-lg font-medium mt-10 md:mt-0 hidden">
-        <a href="" class="no-underline! text-gray-700">Privacy Policy</a>
-        <a href="" class="no-underline! text-gray-700">Terms of Use</a>
-        <a href="" class="no-underline! text-gray-700">Disclaimer</a>
-        <a href="" class="no-underline! text-gray-700"
-          >Do Not Sell My Personal Information</a
-        >
-        <a href="" class="no-underline! text-gray-700">Cookie Policy</a>
-        <a href="" class="no-underline! text-gray-700">Photo Credits</a>
+      <div class="flex flex-col gap-3 text-lg font-medium mt-10 md:mt-0">
+        <RouterLink to="/privacy" class="no-underline! text-gray-700">Privacy Policy</RouterLink>
+        <RouterLink to="/terms" class="no-underline! text-gray-700">Terms of Use</RouterLink>
       </div>
     </div>
     <p class="text-center text-lg opacity-50 mt-20">

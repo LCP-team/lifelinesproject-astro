@@ -1,11 +1,13 @@
 import { createSSRApp } from 'vue'
 import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import { routes } from './router/routes'
 import './styles/global.css'
 
 export function createApp() {
   const app = createSSRApp(App)
+  const pinia = createPinia()
 
   const router = createRouter({
     history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
@@ -15,6 +17,7 @@ export function createApp() {
     },
   })
 
+  app.use(pinia)
   app.use(router)
-  return { app, router }
+  return { app, router, pinia }
 }

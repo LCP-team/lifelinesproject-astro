@@ -10,4 +10,10 @@ export const routes: RouteRecordRaw[] = [
   { path: '/countries/ca-veteran', component: () => import('../views/CaVeteranView.vue') },
   { path: '/countries/us-veteran', component: () => import('../views/UsVeteranView.vue') },
   { path: '/countries/:code', component: () => import('../views/CountryView.vue') },
+  { path: '/privacy', component: () => import('../views/PrivacyView.vue') },
+  { path: '/terms', component: () => import('../views/TermsView.vue') },
+  { path: '/auth/callback', component: () => import('../views/AuthCallbackView.vue') },
+  { path: '/signin', component: () => import('../views/SignInView.vue') },
+  { path: '/signout', component: () => import('../views/SignOutView.vue') },
+  { path: '/profile/complete', component: () => import('../views/CompleteProfileView.vue') },
 ]

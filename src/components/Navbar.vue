@@ -25,20 +25,40 @@
       <RouterLink to="/community" @click="closeMenu">Community</RouterLink>
       <RouterLink to="/about" @click="closeMenu">About</RouterLink>
       <RouterLink to="/contact" @click="closeMenu">Contact</RouterLink>
+
+      <template v-if="auth.user">
+        <RouterLink
+          v-if="auth.user.role === 'LIFELINER'"
+          to="/profile/complete"
+          @click="closeMenu"
+        >
+          My Profile
+        </RouterLink>
+        <RouterLink to="/signout" class="nav-logout" @click="closeMenu">Sign Out</RouterLink>
+      </template>
+      <RouterLink v-else to="/signin" class="nav-login" @click="closeMenu">
+        Sign In
+      </RouterLink>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from '../stores/auth'
 
-const menuOpen = ref(false);
+const auth = useAuthStore()
+const menuOpen = ref(false)
+
+onMounted(() => {
+  auth.init()
+})
 
 const toggleMenu = () => {
-  menuOpen.value = !menuOpen.value;
-};
+  menuOpen.value = !menuOpen.value
+}
 
 const closeMenu = () => {
-  menuOpen.value = false;
-};
+  menuOpen.value = false
+}
 </script>

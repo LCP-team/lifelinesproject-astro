@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "tsx server.ts",
+    "dev": "tsx server.js",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.ts --outDir dist/server",
     "build:node": "esbuild app.ts --platform=node --format=esm --bundle=false --outfile=app.js",
@@ -17,6 +17,7 @@
     "country-list": "^2.4.1",
     "express": "^4.18.2",
     "libphonenumber-js": "^1.12.36",
+    "pinia": "^3.0.4",
     "sirv": "^2.0.4",
     "swiper": "^12.1.2",
     "vue": "^3.5.27",
