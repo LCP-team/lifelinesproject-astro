@@ -67,12 +67,7 @@ app.use("*", async (req, res) => {
     }
 
     const cookies = req.headers.cookie;
-    const {
-      html: appHtml,
-      title,
-      cacheControl,
-      piniaState,
-    } = await render(url, cookies);
+    const { html: appHtml, title, piniaState } = await render(url, cookies);
     const stateScript = piniaState
       ? `<script id="pinia-state" type="application/json">${piniaState}</script>`
       : "";
@@ -83,9 +78,6 @@ app.use("*", async (req, res) => {
       .replace("<!--app-html-->", appHtml);
 
     const headers: Record<string, string> = { "Content-Type": "text/html" };
-    if (cacheControl) {
-      headers["Cache-Control"] = cacheControl;
-    }
     res.status(200).set(headers).send(finalHtml);
   } catch (e: unknown) {
     if (devVite) devVite.ssrFixStacktrace(e as Error);
