@@ -7,6 +7,10 @@
   --color-border: hsl(var(--border));
 }
 
+@theme inline {
+  --color-primary: hsl(217, 33%, 49%);
+}
+
 * {
   font-family: "Roboto", sans-serif;
 }
@@ -21,10 +25,6 @@ a {
 
 .f-amaranth {
   font-family: "Amaranth", sans-serif;
-}
-
-.text-primary {
-  color: #5372a5;
 }
 
 .navbar {
