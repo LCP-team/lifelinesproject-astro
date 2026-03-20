@@ -61,7 +61,7 @@
           <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-5">
             <!-- CLIENT -->
             <button
-              @click="selectRole('CLIENT')"
+              @click="selected = 'CLIENT'"
               :disabled="submitting"
               class="flex flex-col gap-5 p-6 border-2 rounded-xl text-left transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               :class="
@@ -152,7 +152,7 @@
 
             <!-- LIFELINER -->
             <button
-              @click="selectRole('LIFELINER')"
+              @click="selected = 'LIFELINER'"
               :disabled="submitting"
               class="flex flex-col gap-5 p-6 border-2 rounded-xl text-left transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               :class="
@@ -241,12 +241,18 @@
             </button>
           </div>
 
+          <button
+            @click="confirm"
+            :disabled="!selected || submitting"
+            class="w-full py-3 rounded-xl bg-primary text-white font-medium transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {{ submitting ? "Saving…" : "Continue with this role" }}
+          </button>
+
           <p class="text-xs text-gray-400 text-center">
             Not sure which to choose? If you're going through a difficult time,
             select
-            <span class="font-medium text-gray-500"
-              >I'm looking for support</span
-            >.
+            <span class="font-medium text-gray-500">I'm looking for support</span>.
           </p>
         </template>
       </div>
@@ -268,12 +274,10 @@ const submitting = ref(false);
 const apiError = ref("");
 const selected = ref<"CLIENT" | "LIFELINER" | null>(null);
 
-async function selectRole(role: "CLIENT" | "LIFELINER") {
-  if (submitting.value) return;
+async function confirm() {
+  if (!selected.value || submitting.value) return;
 
-  selected.value = role;
-
-  if (role === "LIFELINER") {
+  if (selected.value === "LIFELINER") {
     router.push("/profile/complete");
     return;
   }
@@ -284,7 +288,7 @@ async function selectRole(role: "CLIENT" | "LIFELINER") {
   try {
     const res = await api.patch(
       "/auth/role",
-      { role },
+      { role: selected.value },
       { validateStatus: () => true },
     );
     if (res.status === 200 || res.status === 201) {

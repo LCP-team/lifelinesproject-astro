@@ -35,5 +35,6 @@ export async function render(url: string, cookie?: string) {
     title: ssrContext.title,
     cacheControl: ssrContext.cacheControl,
     piniaState,
+    redirect,
   };
 }
