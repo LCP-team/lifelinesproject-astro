@@ -64,6 +64,6 @@ const signOut = async () => {
 };
 
 onMounted(() => {
-  auth.fetchMe();
+  auth.init();
 });
 </script>
