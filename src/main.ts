@@ -3,6 +3,7 @@ import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import { routes } from './router/routes'
+import { useAuthStore } from './stores/auth'
 import './styles/global.css'
 
 export function createApp() {
@@ -16,6 +17,16 @@ export function createApp() {
       return { top: 0 }
     },
   })
+
+  if (!import.meta.env.SSR) {
+    router.beforeEach((to) => {
+      if (to.path === '/select-role') return true
+      const auth = useAuthStore(pinia)
+      if (auth.inited && auth.user && !auth.user.role) {
+        return '/select-role'
+      }
+    })
+  }
 
   app.use(pinia)
   app.use(router)
