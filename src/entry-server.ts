@@ -9,13 +9,13 @@ interface SSRContext {
   cacheControl?: string;
 }
 
-export async function render(url: string, cookies?: string) {
+export async function render(url: string, cookie?: string) {
   const { app, router, pinia } = createApp();
 
-  if (cookies) {
+  if (cookie) {
     try {
       const authStore = useAuthStore(pinia);
-      await authStore.init();
+      await authStore.init(cookie);
     } catch {
       // not authenticated — leave store at defaults
     }

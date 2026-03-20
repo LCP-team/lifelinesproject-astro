@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import api from "../lib/api";
+import { RawAxiosRequestHeaders } from "axios";
 
 export interface AuthUser {
   id: string;
@@ -22,10 +23,17 @@ export const useAuthStore = defineStore("auth", {
         this.user = null;
       }
     },
-    async fetchMe() {
+    async fetchMe(cookie?: string) {
       this.loading = true;
+      const headers: RawAxiosRequestHeaders = {};
+      if (cookie) {
+        headers.Cookie = cookie;
+      }
+
       try {
-        const res = await api.get<AuthUser>("/auth/me");
+        const res = await api.get<AuthUser>("/auth/me", {
+          headers: headers,
+        });
         this.user = res.data;
       } catch {
         await this.logout();
@@ -33,8 +41,8 @@ export const useAuthStore = defineStore("auth", {
         this.loading = false;
       }
     },
-    async init() {
-      await this.fetchMe();
+    async init(cookie?: string) {
+      await this.fetchMe(cookie);
       this.inited = true;
     },
   },
