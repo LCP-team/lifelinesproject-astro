@@ -282,7 +282,7 @@ async function selectRole(role: "CLIENT" | "LIFELINER") {
   apiError.value = "";
 
   try {
-    const res = await api.post(
+    const res = await api.patch(
       "/auth/role",
       { role },
       { validateStatus: () => true },

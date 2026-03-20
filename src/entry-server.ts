@@ -15,7 +15,7 @@ export async function render(url: string, cookie?: string) {
     try {
       const authStore = useAuthStore(pinia);
       await authStore.init(cookie);
-      if (authStore.user && !authStore.user.role && url !== "/select-role") {
+      if (authStore.user && !authStore.user.role) {
         redirect = "/select-role";
       }
     } catch {

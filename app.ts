@@ -74,7 +74,7 @@ app.use("*", async (req, res) => {
       piniaState,
       redirect,
     } = await render(url, cookies);
-    if (redirect) {
+    if (redirect && url !== redirect) {
       return res.redirect(redirect);
     }
 
