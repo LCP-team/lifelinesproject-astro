@@ -200,11 +200,11 @@ async function submitProfile() {
 
   try {
     await api
-      .post("/lifeliners", form, { validateStatus: () => true })
+      .patch("/lifeliners", form, { validateStatus: () => true })
       .then((res) => {
         if (res.status === 201) {
           success.value = true;
-          setTimeout(() => router.push("/"), 1500);
+          router.push("/");
         } else if (res.status === 409) {
           apiError.value = "You already have a Lifeliner profile.";
         } else {
