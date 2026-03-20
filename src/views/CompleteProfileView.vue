@@ -85,34 +85,74 @@
 
         <div class="flex flex-col gap-1">
           <label class="font-medium text-sm"
-            >Profile Picture URL <span class="text-red-500">*</span></label
+            >Profile Picture <span class="text-red-500">*</span></label
           >
-          <p class="text-xs text-gray-500">
-            Public photo shown in the directory.
-          </p>
-          <input
-            v-model="form.profile_picture"
-            type="url"
-            required
-            placeholder="https://example.com/photo.jpg"
-            class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          <p class="text-xs text-gray-500">Public photo shown in the directory.</p>
+          <div
+            class="border-2 border-dashed rounded-lg p-4 flex flex-col items-center gap-3 cursor-pointer hover:border-primary transition-colors"
+            @click="profilePictureInput?.click()"
+            @dragover.prevent
+            @drop.prevent="onDrop($event, 'profile')"
+          >
+            <img
+              v-if="profilePreview"
+              :src="profilePreview"
+              class="w-24 h-24 rounded-full object-cover"
+              alt="Profile preview"
+            />
+            <div v-else class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <span class="text-sm text-gray-500">
+              {{ profileUploading ? "Uploading…" : profilePreview ? "Click to change" : "Click or drag to upload" }}
+            </span>
+            <input
+              ref="profilePictureInput"
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="onFileChange($event, 'profile')"
+            />
+          </div>
+          <p v-if="profileUploadError" class="text-xs text-red-500">{{ profileUploadError }}</p>
         </div>
 
         <div class="flex flex-col gap-1">
           <label class="font-medium text-sm"
-            >Verification Photo URL <span class="text-red-500">*</span></label
+            >Verification Photo <span class="text-red-500">*</span></label
           >
-          <p class="text-xs text-gray-500">
-            Private — used for verification only, never shown publicly.
-          </p>
-          <input
-            v-model="form.private_picture"
-            type="url"
-            required
-            placeholder="https://example.com/id-photo.jpg"
-            class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          <p class="text-xs text-gray-500">Private — used for verification only, never shown publicly.</p>
+          <div
+            class="border-2 border-dashed rounded-lg p-4 flex flex-col items-center gap-3 cursor-pointer hover:border-primary transition-colors"
+            @click="privatePictureInput?.click()"
+            @dragover.prevent
+            @drop.prevent="onDrop($event, 'private')"
+          >
+            <img
+              v-if="privatePreview"
+              :src="privatePreview"
+              class="w-24 h-24 rounded-full object-cover"
+              alt="Verification photo preview"
+            />
+            <div v-else class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <span class="text-sm text-gray-500">
+              {{ privateUploading ? "Uploading…" : privatePreview ? "Click to change" : "Click or drag to upload" }}
+            </span>
+            <input
+              ref="privatePictureInput"
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="onFileChange($event, 'private')"
+            />
+          </div>
+          <p v-if="privateUploadError" class="text-xs text-red-500">{{ privateUploadError }}</p>
         </div>
 
         <div class="flex flex-col gap-1">
@@ -152,7 +192,7 @@
 
         <button
           type="submit"
-          :disabled="submitting || form.age_groups.length === 0"
+          :disabled="submitting || profileUploading || privateUploading || form.age_groups.length === 0"
           class="mt-2 px-6 py-3 bg-primary text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {{ submitting ? "Saving…" : "Save Profile" }}
@@ -183,8 +223,6 @@ const form = reactive({
   full_name: "",
   display_name: "",
   age: null as number | null,
-  profile_picture: "",
-  private_picture: "",
   about_me: "",
   age_groups: [] as string[],
 });
@@ -193,7 +231,87 @@ const submitting = ref(false);
 const apiError = ref("");
 const success = ref(false);
 
+// Photo upload state
+const profilePictureInput = ref<HTMLInputElement | null>(null);
+const privatePictureInput = ref<HTMLInputElement | null>(null);
+const profilePreview = ref("");
+const privatePreview = ref("");
+const profileUploading = ref(false);
+const privateUploading = ref(false);
+const profileUploadError = ref("");
+const privateUploadError = ref("");
+
+async function uploadFile(file: File, type: "profile" | "private") {
+  const endpoint =
+    type === "profile"
+      ? "/lifeliners/upload/profile-picture"
+      : "/lifeliners/upload/verification-photo";
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await api.patch(endpoint, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    validateStatus: () => true,
+  });
+
+  if (res.status === 200 || res.status === 201) return;
+  throw new Error(res.data?.message || "Upload failed");
+}
+
+async function onFileChange(event: Event, type: "profile" | "private") {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+  await handleFile(file, type);
+}
+
+function onDrop(event: DragEvent, type: "profile" | "private") {
+  const file = event.dataTransfer?.files?.[0];
+  if (!file || !file.type.startsWith("image/")) return;
+  handleFile(file, type);
+}
+
+async function handleFile(file: File, type: "profile" | "private") {
+  const preview = URL.createObjectURL(file);
+
+  if (type === "profile") {
+    profilePreview.value = preview;
+    profileUploading.value = true;
+    profileUploadError.value = "";
+    try {
+      await uploadFile(file, type);
+    } catch (e: any) {
+      profileUploadError.value = e.message || "Upload failed. Try again.";
+      profilePreview.value = "";
+    } finally {
+      profileUploading.value = false;
+    }
+  } else {
+    privatePreview.value = preview;
+    privateUploading.value = true;
+    privateUploadError.value = "";
+    try {
+      await uploadFile(file, type);
+    } catch (e: any) {
+      privateUploadError.value = e.message || "Upload failed. Try again.";
+      privatePreview.value = "";
+    } finally {
+      privateUploading.value = false;
+    }
+  }
+}
+
 async function submitProfile() {
+  if (!profilePreview.value) {
+    apiError.value = "Please upload a profile picture.";
+    return;
+  }
+  if (!privatePreview.value) {
+    apiError.value = "Please upload a verification photo.";
+    return;
+  }
+
   submitting.value = true;
   apiError.value = "";
   success.value = false;
