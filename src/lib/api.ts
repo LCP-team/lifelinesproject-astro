@@ -10,4 +10,6 @@ const api = axios.create({
   },
 });
 
+export const loginUrl = `${API_BASE_URL}/auth/google`;
+
 export default api;

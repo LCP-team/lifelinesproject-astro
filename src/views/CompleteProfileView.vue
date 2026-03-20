@@ -163,16 +163,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import BaseLayout from "../layouts/BaseLayout.vue";
 import { useAuthStore } from "../stores/auth";
-import api, { API_BASE_URL } from "../lib/api";
+import api, { loginUrl } from "../lib/api";
 
 const auth = useAuthStore();
 const router = useRouter();
-
-const loginUrl = `${API_BASE_URL}/auth/google`;
 
 const ageGroupOptions = [
   { value: "TEENS", label: "Teens (13–17)" },
@@ -201,20 +199,23 @@ async function submitProfile() {
   success.value = false;
 
   try {
-    await api.post("/lifeliners", form, { validateStatus: () => true }).then((res) => {
-      if (res.status === 201) {
-        success.value = true;
-        setTimeout(() => router.push("/"), 1500);
-      } else if (res.status === 409) {
-        apiError.value = "You already have a Lifeliner profile.";
-      } else {
-        const data = res.data;
-        const messages = Array.isArray(data.message)
-          ? data.message.join(", ")
-          : data.message;
-        apiError.value = messages || "Something went wrong. Please try again.";
-      }
-    });
+    await api
+      .post("/lifeliners", form, { validateStatus: () => true })
+      .then((res) => {
+        if (res.status === 201) {
+          success.value = true;
+          setTimeout(() => router.push("/"), 1500);
+        } else if (res.status === 409) {
+          apiError.value = "You already have a Lifeliner profile.";
+        } else {
+          const data = res.data;
+          const messages = Array.isArray(data.message)
+            ? data.message.join(", ")
+            : data.message;
+          apiError.value =
+            messages || "Something went wrong. Please try again.";
+        }
+      });
   } catch {
     apiError.value =
       "Network error. Please check your connection and try again.";

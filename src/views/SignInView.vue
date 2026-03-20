@@ -70,13 +70,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
 import BaseLayout from "../layouts/BaseLayout.vue";
-import { useAuthStore, API_BASE_URL } from "../stores/auth";
+import { useAuthStore } from "../stores/auth";
+import { loginUrl } from "../lib/api";
 
 const auth = useAuthStore();
 
 function signIn() {
-  window.location.href = `${API_BASE_URL}/auth/google`;
+  window.location.href = loginUrl;
 }
 </script>

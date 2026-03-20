@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import api, { API_BASE_URL } from "../lib/api";
+import api from "../lib/api";
 
 export interface AuthUser {
   id: string;
@@ -42,5 +42,3 @@ export const useAuthStore = defineStore("auth", () => {
 
   return { user, loading, inited, logout, fetchMe, init };
 });
-
-export { API_BASE_URL };
