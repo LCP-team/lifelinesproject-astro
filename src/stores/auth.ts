@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { getCookie, setCookie, deleteCookie } from "../utils/cookie";
 
-const API_BASE = "http://localhost:3005";
+const API_BASE = "https://api.lifelinesproject.com";
 const TOKEN_COOKIE = "lifelines_token";
 
 export interface AuthUser {
