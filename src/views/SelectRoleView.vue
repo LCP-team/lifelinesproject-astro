@@ -252,7 +252,9 @@
           <p class="text-xs text-gray-400 text-center">
             Not sure which to choose? If you're going through a difficult time,
             select
-            <span class="font-medium text-gray-500">I'm looking for support</span>.
+            <span class="font-medium text-gray-500"
+              >I'm looking for support</span
+            >.
           </p>
         </template>
       </div>
@@ -276,12 +278,6 @@ const selected = ref<"CLIENT" | "LIFELINER" | null>(null);
 
 async function confirm() {
   if (!selected.value || submitting.value) return;
-
-  if (selected.value === "LIFELINER") {
-    router.push("/profile/complete");
-    return;
-  }
-
   submitting.value = true;
   apiError.value = "";
 
@@ -293,6 +289,10 @@ async function confirm() {
     );
     if (res.status === 200 || res.status === 201) {
       await auth.fetchMe();
+      if (selected.value === "LIFELINER") {
+        router.push("/profile/complete");
+        return;
+      }
       router.push("/");
     } else {
       const msg = Array.isArray(res.data?.message)
