@@ -46,7 +46,6 @@ import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
 
-const router = useRouter();
 const auth = useAuthStore();
 const menuOpen = ref(false);
 
@@ -60,6 +59,6 @@ const closeMenu = () => {
 
 const signOut = async () => {
   await auth.logout();
-  router.push("/");
+  window.location.href = "/";
 };
 </script>
