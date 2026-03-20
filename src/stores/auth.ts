@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-
-const API_BASE = "https://api.lifelinesproject.com";
+import api, { API_BASE_URL } from "../lib/api";
 
 export interface AuthUser {
   id: string;
@@ -16,12 +15,9 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function logout() {
     // send post request to /auth/logout
-    const res = await fetch(`${API_BASE}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
+    const res = await api.post("/auth/logout");
 
-    if (res.ok) {
+    if (res.status === 200) {
       user.value = null;
     }
   }
@@ -29,16 +25,10 @@ export const useAuthStore = defineStore("auth", () => {
   async function fetchMe() {
     loading.value = true;
     try {
-      const res = await fetch(`${API_BASE}/auth/me`, {
-        credentials: "include",
-      });
-      if (res.ok) {
-        user.value = await res.json();
-      } else {
-        await logout();
-      }
+      const res = await api.get<AuthUser>("/auth/me");
+      user.value = res.data;
     } catch {
-      // network error — keep token, don't log out
+      await logout();
     } finally {
       loading.value = false;
     }
@@ -53,4 +43,4 @@ export const useAuthStore = defineStore("auth", () => {
   return { user, loading, inited, logout, fetchMe, init };
 });
 
-export const API_BASE_URL = API_BASE;
+export { API_BASE_URL };
