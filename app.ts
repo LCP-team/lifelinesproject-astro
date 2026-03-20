@@ -15,6 +15,7 @@ type RenderFn = (
   title?: string;
   cacheControl?: string;
   piniaState?: string;
+  redirect?: string;
 }>;
 
 const app: Application = express();
@@ -67,10 +68,20 @@ app.use("*", async (req, res) => {
     }
 
     const cookies = req.headers.cookie;
-    const { html: appHtml, title, piniaState } = await render(url, cookies);
+    const {
+      html: appHtml,
+      title,
+      piniaState,
+      redirect,
+    } = await render(url, cookies);
+    if (redirect) {
+      return res.redirect(redirect);
+    }
+
     const stateScript = piniaState
-      ? `<script id="pinia-state" type="application/json">${piniaState}</script>`
+      ? `<script id="pinia-state" type="application/json">${JSON.stringify(piniaState)}</script>`
       : "";
+
     const finalHtml = template
       .replace("<!--app-title-->", title ?? "LifeLines Canada")
       .replace("<!--app-head-->", "")

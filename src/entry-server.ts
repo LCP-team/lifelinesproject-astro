@@ -1,8 +1,6 @@
 import { renderToString } from "vue/server-renderer";
-import axios from "axios";
 import { createApp } from "./main";
 import { useAuthStore } from "./stores/auth";
-import { API_BASE_URL } from "./lib/api";
 
 interface SSRContext {
   title?: string;
@@ -11,11 +9,15 @@ interface SSRContext {
 
 export async function render(url: string, cookie?: string) {
   const { app, router, pinia } = createApp();
+  let redirect: string | undefined;
 
   if (cookie) {
     try {
       const authStore = useAuthStore(pinia);
       await authStore.init(cookie);
+      if (authStore.user && !authStore.user.role) {
+        redirect = "/profile/complete";
+      }
     } catch {
       // not authenticated — leave store at defaults
     }
