@@ -289,7 +289,7 @@ async function confirm() {
     );
     if (res.status === 200 || res.status === 201) {
       await auth.fetchMe();
-      if (selected.value === "LIFELINER") {
+      if (auth.user?.role === "LIFELINER") {
         router.push("/profile/complete");
         return;
       }
