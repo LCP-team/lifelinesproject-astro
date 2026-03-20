@@ -1,12 +1,12 @@
-import { createApp } from './main'
+import { createApp } from "./main";
 
-const { app, router, pinia } = createApp()
+const { app, router, pinia } = createApp();
 
-const state = (window as Record<string, unknown>).__pinia_state__
-if (state && typeof state === 'object') {
-  pinia.state.value = state as Record<string, unknown>
+const state = window.document.getElementById("pinia-state")?.getHTML();
+if (state && typeof state === "string") {
+  pinia.state.value = JSON.parse(state);
 }
 
 router.isReady().then(() => {
-  app.mount('#app')
-})
+  app.mount("#app");
+});

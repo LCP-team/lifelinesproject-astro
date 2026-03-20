@@ -10,7 +10,12 @@ const port = Number(process.env.PORT) || 3002;
 type RenderFn = (
   url: string,
   cookies?: string,
-) => Promise<{ html: string; title?: string; cacheControl?: string; piniaState?: string }>;
+) => Promise<{
+  html: string;
+  title?: string;
+  cacheControl?: string;
+  piniaState?: string;
+}>;
 
 const app: Application = express();
 
@@ -62,9 +67,14 @@ app.use("*", async (req, res) => {
     }
 
     const cookies = req.headers.cookie;
-    const { html: appHtml, title, cacheControl, piniaState } = await render(url, cookies);
+    const {
+      html: appHtml,
+      title,
+      cacheControl,
+      piniaState,
+    } = await render(url, cookies);
     const stateScript = piniaState
-      ? `<script>window.__pinia_state__ = ${piniaState}</script>`
+      ? `<script id="pinia-state" type="application/json">${piniaState}</script>`
       : "";
     const finalHtml = template
       .replace("<!--app-title-->", title ?? "LifeLines Canada")
