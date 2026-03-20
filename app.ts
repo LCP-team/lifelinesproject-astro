@@ -79,7 +79,7 @@ app.use("*", async (req, res) => {
     }
 
     const stateScript = piniaState
-      ? `<script id="pinia-state" type="application/json">${JSON.stringify(piniaState)}</script>`
+      ? `<script id="pinia-state" type="application/json">${piniaState}</script>`
       : "";
 
     const finalHtml = template
