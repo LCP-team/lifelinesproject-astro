@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
 
@@ -62,8 +62,4 @@ const signOut = async () => {
   await auth.logout();
   router.push("/");
 };
-
-onMounted(() => {
-  auth.init();
-});
 </script>

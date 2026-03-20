@@ -35,7 +35,6 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   async function init() {
-    if (inited.value || loading.value) return;
     await fetchMe();
     inited.value = true;
   }
