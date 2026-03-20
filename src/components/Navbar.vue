@@ -34,31 +34,36 @@
         >
           My Profile
         </RouterLink>
-        <RouterLink to="/signout" class="nav-logout" @click="closeMenu">Sign Out</RouterLink>
+        <a href="javascript:void(0)" @click="signOut"> Sign Out </a>
       </template>
-      <RouterLink v-else to="/signin" class="nav-login" @click="closeMenu">
-        Sign In
-      </RouterLink>
+      <RouterLink v-else to="/signin" @click="closeMenu"> Sign In </RouterLink>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useAuthStore } from '../stores/auth'
+import { ref, onMounted } from "vue";
+import { useAuthStore } from "../stores/auth";
+import { useRouter } from "vue-router";
 
-const auth = useAuthStore()
-const menuOpen = ref(false)
-
-onMounted(() => {
-  auth.init()
-})
+const router = useRouter();
+const auth = useAuthStore();
+const menuOpen = ref(false);
 
 const toggleMenu = () => {
-  menuOpen.value = !menuOpen.value
-}
+  menuOpen.value = !menuOpen.value;
+};
 
 const closeMenu = () => {
-  menuOpen.value = false
-}
+  menuOpen.value = false;
+};
+
+const signOut = async () => {
+  await auth.logout();
+  router.push("/");
+};
+
+onMounted(() => {
+  auth.fetchMe();
+});
 </script>
