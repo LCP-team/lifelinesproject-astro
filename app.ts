@@ -9,7 +9,8 @@ const port = Number(process.env.PORT) || 3002;
 
 type RenderFn = (
   url: string,
-) => Promise<{ html: string; title?: string; cacheControl?: string }>;
+  cookies?: string,
+) => Promise<{ html: string; title?: string; cacheControl?: string; piniaState?: string }>;
 
 const app: Application = express();
 
@@ -60,10 +61,15 @@ app.use("*", async (req, res) => {
       render = mod.render as RenderFn;
     }
 
-    const { html: appHtml, title, cacheControl } = await render(url);
+    const cookies = req.headers.cookie;
+    const { html: appHtml, title, cacheControl, piniaState } = await render(url, cookies);
+    const stateScript = piniaState
+      ? `<script>window.__pinia_state__ = ${piniaState}</script>`
+      : "";
     const finalHtml = template
       .replace("<!--app-title-->", title ?? "LifeLines Canada")
       .replace("<!--app-head-->", "")
+      .replace("<!--pinia-state-->", stateScript)
       .replace("<!--app-html-->", appHtml);
 
     const headers: Record<string, string> = { "Content-Type": "text/html" };
