@@ -244,8 +244,8 @@ const privateUploadError = ref("");
 async function uploadFile(file: File, type: "profile" | "private") {
   const endpoint =
     type === "profile"
-      ? "/upload/profile-picture"
-      : "/upload/verification-photo";
+      ? "/lifeliners/upload/profile-picture"
+      : "/lifeliners/upload/verification-photo";
 
   const formData = new FormData();
   formData.append("file", file);
