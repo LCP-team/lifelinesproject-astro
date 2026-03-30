@@ -250,7 +250,7 @@ async function uploadFile(file: File, type: "profile" | "private") {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await api.patch(endpoint, formData, {
+  const res = await api.post(endpoint, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     validateStatus: () => true,
   });
