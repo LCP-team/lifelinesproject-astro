@@ -416,11 +416,9 @@ async function submitProfile() {
     await api
       .patch("/lifeliners", form, { validateStatus: () => true })
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           success.value = true;
           router.push("/");
-        } else if (res.status === 409) {
-          apiError.value = "You already have a Lifeliner profile.";
         } else {
           const data = res.data;
           const messages = Array.isArray(data.message)

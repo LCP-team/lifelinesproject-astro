@@ -37,4 +37,8 @@ export const routes: RouteRecordRaw[] = [
     path: "/lifeliners",
     component: () => import("../views/LifelinersView.vue"),
   },
+  {
+    path: "/lifeliners/:id",
+    component: () => import("../views/LifelinerProfileView.vue"),
+  },
 ];
