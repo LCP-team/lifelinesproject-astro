@@ -246,8 +246,16 @@ onMounted(async () => {
       if (d.age) form.age = d.age;
       if (d.about_me) form.about_me = d.about_me;
       if (Array.isArray(d.age_groups)) form.age_groups = d.age_groups;
-      if (d.profile_picture_url) profilePreview.value = d.profile_picture_url.startsWith("http") ? d.profile_picture_url : `${API_BASE_URL}${d.profile_picture_url}`;
-      if (d.verification_photo_url) privatePreview.value = d.verification_photo_url.startsWith("http") ? d.verification_photo_url : `${API_BASE_URL}${d.verification_photo_url}`;
+      if (d.profile_picture_url) {
+        const url = d.profile_picture_url.startsWith("http") ? d.profile_picture_url : `${API_BASE_URL}${d.profile_picture_url}`;
+        profilePreview.value = url;
+        savedProfilePreview.value = url;
+      }
+      if (d.verification_photo_url) {
+        const url = d.verification_photo_url.startsWith("http") ? d.verification_photo_url : `${API_BASE_URL}${d.verification_photo_url}`;
+        privatePreview.value = url;
+        savedPrivatePreview.value = url;
+      }
     }
   } catch {
     // silently ignore — form stays empty
@@ -261,6 +269,8 @@ const profilePictureInput = ref<HTMLInputElement | null>(null);
 const privatePictureInput = ref<HTMLInputElement | null>(null);
 const profilePreview = ref("");
 const privatePreview = ref("");
+const savedProfilePreview = ref("");
+const savedPrivatePreview = ref("");
 const profileUploading = ref(false);
 const privateUploading = ref(false);
 const profileUploadError = ref("");
@@ -306,9 +316,10 @@ async function handleFile(file: File, type: "profile" | "private") {
     profileUploadError.value = "";
     try {
       await uploadFile(file, type);
+      savedProfilePreview.value = preview;
     } catch (e: any) {
       profileUploadError.value = e.message || "Upload failed. Try again.";
-      profilePreview.value = "";
+      profilePreview.value = savedProfilePreview.value;
     } finally {
       profileUploading.value = false;
     }
@@ -318,9 +329,10 @@ async function handleFile(file: File, type: "profile" | "private") {
     privateUploadError.value = "";
     try {
       await uploadFile(file, type);
+      savedPrivatePreview.value = preview;
     } catch (e: any) {
       privateUploadError.value = e.message || "Upload failed. Try again.";
-      privatePreview.value = "";
+      privatePreview.value = savedPrivatePreview.value;
     } finally {
       privateUploading.value = false;
     }
