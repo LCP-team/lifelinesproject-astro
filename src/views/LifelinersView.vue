@@ -211,10 +211,35 @@
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <div
-          v-for="n in LIMIT"
+          v-for="n in 6"
           :key="n"
-          class="rounded-2xl border bg-gray-50 animate-pulse h-60"
-        />
+          class="rounded-2xl border border-gray-100 bg-white p-6 flex flex-col gap-4"
+        >
+          <!-- Avatar + name row -->
+          <div class="flex items-center gap-4">
+            <div class="relative flex-shrink-0">
+              <div class="w-14 h-14 rounded-full bg-gray-100 animate-pulse" />
+              <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-gray-100 animate-pulse border-2 border-white" />
+            </div>
+            <div class="flex flex-col gap-2 flex-1 min-w-0">
+              <div class="h-4 bg-gray-100 rounded-full animate-pulse w-2/3" />
+              <div class="h-3 bg-gray-100 rounded-full animate-pulse w-1/4" />
+            </div>
+          </div>
+          <!-- Divider -->
+          <div class="h-px bg-gray-100" />
+          <!-- About lines -->
+          <div class="flex flex-col gap-2 flex-1">
+            <div class="h-3 bg-gray-100 rounded-full animate-pulse w-full" />
+            <div class="h-3 bg-gray-100 rounded-full animate-pulse w-5/6" />
+            <div class="h-3 bg-gray-100 rounded-full animate-pulse w-4/6" />
+          </div>
+          <!-- Badge row -->
+          <div class="flex gap-2">
+            <div class="h-5 w-24 bg-gray-100 rounded-full animate-pulse" />
+            <div class="h-5 w-20 bg-gray-100 rounded-full animate-pulse" />
+          </div>
+        </div>
       </div>
 
       <!-- Error -->
