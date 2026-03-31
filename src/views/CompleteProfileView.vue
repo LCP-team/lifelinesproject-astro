@@ -24,7 +24,9 @@
         </p>
       </div>
 
-      <div v-else-if="profileLoading" class="text-center py-16 text-gray-400">Loading profile…</div>
+      <div v-else-if="profileLoading" class="text-center py-16 text-gray-400">
+        Loading profile…
+      </div>
 
       <form v-else @submit.prevent="submitProfile" class="flex flex-col gap-5">
         <div
@@ -89,7 +91,9 @@
           <label class="font-medium text-sm"
             >Profile Picture <span class="text-red-500">*</span></label
           >
-          <p class="text-xs text-gray-500">Public photo shown in the directory.</p>
+          <p class="text-xs text-gray-500">
+            Public photo shown in the directory.
+          </p>
           <div
             class="border-2 border-dashed rounded-lg p-4 flex flex-col items-center gap-3 cursor-pointer hover:border-primary transition-colors"
             @click="profilePictureInput?.click()"
@@ -102,13 +106,33 @@
               class="w-24 h-24 rounded-full object-cover"
               alt="Profile preview"
             />
-            <div v-else class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            <div
+              v-else
+              class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-10 h-10 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
               </svg>
             </div>
             <span class="text-sm text-gray-500">
-              {{ profileUploading ? "Uploading…" : profilePreview ? "Click to change" : "Click or drag to upload" }}
+              {{
+                profileUploading
+                  ? "Uploading…"
+                  : profilePreview
+                    ? "Click to change"
+                    : "Click or drag to upload"
+              }}
             </span>
             <input
               ref="profilePictureInput"
@@ -118,14 +142,18 @@
               @change="onFileChange($event, 'profile')"
             />
           </div>
-          <p v-if="profileUploadError" class="text-xs text-red-500">{{ profileUploadError }}</p>
+          <p v-if="profileUploadError" class="text-xs text-red-500">
+            {{ profileUploadError }}
+          </p>
         </div>
 
         <div class="flex flex-col gap-1">
           <label class="font-medium text-sm"
             >Verification Photo <span class="text-red-500">*</span></label
           >
-          <p class="text-xs text-gray-500">Private — used for verification only, never shown publicly.</p>
+          <p class="text-xs text-gray-500">
+            Private — used for verification only, never shown publicly.
+          </p>
           <div
             class="border-2 border-dashed rounded-lg p-4 flex flex-col items-center gap-3 cursor-pointer hover:border-primary transition-colors"
             @click="privatePictureInput?.click()"
@@ -138,13 +166,33 @@
               class="w-24 h-24 rounded-full object-cover"
               alt="Verification photo preview"
             />
-            <div v-else class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+            <div
+              v-else
+              class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-10 h-10 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"
+                />
               </svg>
             </div>
             <span class="text-sm text-gray-500">
-              {{ privateUploading ? "Uploading…" : privatePreview ? "Click to change" : "Click or drag to upload" }}
+              {{
+                privateUploading
+                  ? "Uploading…"
+                  : privatePreview
+                    ? "Click to change"
+                    : "Click or drag to upload"
+              }}
             </span>
             <input
               ref="privatePictureInput"
@@ -154,7 +202,9 @@
               @change="onFileChange($event, 'private')"
             />
           </div>
-          <p v-if="privateUploadError" class="text-xs text-red-500">{{ privateUploadError }}</p>
+          <p v-if="privateUploadError" class="text-xs text-red-500">
+            {{ privateUploadError }}
+          </p>
         </div>
 
         <div class="flex flex-col gap-1">
@@ -194,7 +244,12 @@
 
         <button
           type="submit"
-          :disabled="submitting || profileUploading || privateUploading || form.age_groups.length === 0"
+          :disabled="
+            submitting ||
+            profileUploading ||
+            privateUploading ||
+            form.age_groups.length === 0
+          "
           class="mt-2 px-6 py-3 bg-primary text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {{ submitting ? "Saving…" : "Save Profile" }}
@@ -246,13 +301,17 @@ onMounted(async () => {
       if (d.age) form.age = d.age;
       if (d.about_me) form.about_me = d.about_me;
       if (Array.isArray(d.age_groups)) form.age_groups = d.age_groups;
-      if (d.profile_picture_url) {
-        const url = d.profile_picture_url.startsWith("http") ? d.profile_picture_url : `${API_BASE_URL}${d.profile_picture_url}`;
+      if (d.profile_picture) {
+        const url = d.profile_picture.startsWith("http")
+          ? d.profile_picture
+          : `${API_BASE_URL}${d.profile_picture}`;
         profilePreview.value = url;
         savedProfilePreview.value = url;
       }
-      if (d.verification_photo_url) {
-        const url = d.verification_photo_url.startsWith("http") ? d.verification_photo_url : `${API_BASE_URL}${d.verification_photo_url}`;
+      if (d.private_picture) {
+        const url = d.private_picture.startsWith("http")
+          ? d.private_picture
+          : `${API_BASE_URL}${d.private_picture}`;
         privatePreview.value = url;
         savedPrivatePreview.value = url;
       }
