@@ -24,6 +24,8 @@
         </p>
       </div>
 
+      <div v-else-if="profileLoading" class="text-center py-16 text-gray-400">Loading profile…</div>
+
       <form v-else @submit.prevent="submitProfile" class="flex flex-col gap-5">
         <div
           v-if="apiError"
@@ -203,11 +205,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import BaseLayout from "../layouts/BaseLayout.vue";
 import { useAuthStore } from "../stores/auth";
-import api, { loginUrl } from "../lib/api";
+import api, { loginUrl, API_BASE_URL } from "../lib/api";
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -230,6 +232,29 @@ const form = reactive({
 const submitting = ref(false);
 const apiError = ref("");
 const success = ref(false);
+const profileLoading = ref(false);
+
+onMounted(async () => {
+  if (!auth.user || auth.user.role !== "LIFELINER") return;
+  profileLoading.value = true;
+  try {
+    const res = await api.get("/lifeliners/me", { validateStatus: () => true });
+    if (res.status === 200 && res.data) {
+      const d = res.data;
+      if (d.full_name) form.full_name = d.full_name;
+      if (d.display_name) form.display_name = d.display_name;
+      if (d.age) form.age = d.age;
+      if (d.about_me) form.about_me = d.about_me;
+      if (Array.isArray(d.age_groups)) form.age_groups = d.age_groups;
+      if (d.profile_picture_url) profilePreview.value = d.profile_picture_url.startsWith("http") ? d.profile_picture_url : `${API_BASE_URL}${d.profile_picture_url}`;
+      if (d.verification_photo_url) privatePreview.value = d.verification_photo_url.startsWith("http") ? d.verification_photo_url : `${API_BASE_URL}${d.verification_photo_url}`;
+    }
+  } catch {
+    // silently ignore — form stays empty
+  } finally {
+    profileLoading.value = false;
+  }
+});
 
 // Photo upload state
 const profilePictureInput = ref<HTMLInputElement | null>(null);
