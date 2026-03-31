@@ -33,4 +33,8 @@ export const routes: RouteRecordRaw[] = [
     path: "/profile/complete",
     component: () => import("../views/CompleteProfileView.vue"),
   },
+  {
+    path: "/lifeliners",
+    component: () => import("../views/LifelinersView.vue"),
+  },
 ];
