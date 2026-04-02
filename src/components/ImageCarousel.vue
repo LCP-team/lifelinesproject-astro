@@ -22,12 +22,12 @@
 
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const modules = [Navigation, Pagination];
+const modules = [Autoplay, Navigation, Pagination];
 
 const slides = [
   { image: "sakura.webp", alt: "Slide 1" },
