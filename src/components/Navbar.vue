@@ -24,6 +24,7 @@
     <div class="nav-links" :class="{ active: menuOpen }" ref="navLinks">
       <RouterLink to="/lifeliners" @click="closeMenu">Lifeliners</RouterLink>
       <RouterLink to="/community" @click="closeMenu">Community</RouterLink>
+      <RouterLink to="/ai-chat" @click="closeMenu">AI Chat</RouterLink>
       <RouterLink to="/about" @click="closeMenu">About</RouterLink>
       <RouterLink to="/contact" @click="closeMenu">Contact</RouterLink>
 
