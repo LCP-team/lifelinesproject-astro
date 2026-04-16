@@ -1,9 +1,26 @@
 import type { RouteRecordRaw } from "vue-router";
 
+const enableDevAiChat =
+  import.meta.env.DEV &&
+  ["1", "true", "yes", "on"].includes(
+    (import.meta.env.VITE_AI_CHAT_DEV_MODE || "").toLowerCase(),
+  );
+
+const devRoutes: RouteRecordRaw[] = enableDevAiChat
+  ? [
+      {
+        path: "/dev/ai-chat",
+        component: () => import("../views/AiChatDevView.vue"),
+      },
+    ]
+  : [];
+
 export const routes: RouteRecordRaw[] = [
   { path: "/", component: () => import("../views/HomeView.vue") },
   { path: "/about", component: () => import("../views/AboutView.vue") },
   { path: "/community", component: () => import("../views/CommunityView.vue") },
+  { path: "/ai-chat", component: () => import("../views/AiChatView.vue") },
+  ...devRoutes,
   { path: "/contact", component: () => import("../views/ContactView.vue") },
   {
     path: "/crisishotline",
