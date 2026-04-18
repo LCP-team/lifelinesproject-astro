@@ -44,15 +44,15 @@
         </p>
         <p>
           If you represent a verified organization providing crisis or suicide support and would like your service included, please contact us at:
-          <a href="mailto:connect@lifelinesproject.com" class="underline font-medium text-primary">connect@lifelinesproject.com</a>.
+          <a href="mailto:connect@sophiaathena.com" class="underline font-medium text-primary">connect@sophiaathena.com</a>.
         </p>
 
         <p class="text-md">
           Our crisis and suicide hotline directory is always growing and improving.
           If you notice something missing or incorrect, or know a resource we should include,
           we would truly appreciate you letting us know at
-          <a href="mailto:connect@lifelinesproject.com" class="underline font-medium text-primary">
-            connect@lifelinesproject.com
+          <a href="mailto:connect@sophiaathena.com" class="underline font-medium text-primary">
+            connect@sophiaathena.com
           </a>.
           Together, we can help make support easier to find.
         </p>

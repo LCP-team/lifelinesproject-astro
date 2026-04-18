@@ -47,8 +47,8 @@
             If you ever have concerns about the community, wish to report an
             issue, or need assistance, you can contact us confidentially at:
           </p>
-          <a href="mailto:support@lifelinesproject.com" class="text-primary">
-            support@lifelinesproject.com
+          <a href="mailto:support@sophiaathena.com" class="text-primary">
+            support@sophiaathena.com
           </a>
           <p>
             We are committed to maintaining a community built on trust, care,

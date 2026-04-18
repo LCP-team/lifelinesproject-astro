@@ -25,8 +25,8 @@
 
           <p class="text-xl font-bold">General Inquiries</p>
           <p>For questions about LifeLines, the directory, or the community:</p>
-          <a href="mailto:connect@lifelinesproject.com" class="text-primary">
-            connect@lifelinesproject.com
+          <a href="mailto:connect@sophiaathena.com" class="text-primary">
+            connect@sophiaathena.com
           </a>
 
           <span class="px-5 mt-4 w-full">
@@ -39,8 +39,8 @@
             verified crisis or support resource for inclusion, please contact
             us. Accuracy and reliability are important to us.
           </p>
-          <a href="mailto:support@lifelinesproject.com" class="text-primary">
-            support@lifelinesproject.com
+          <a href="mailto:support@sophiaathena.com" class="text-primary">
+            support@sophiaathena.com
           </a>
 
           <span class="px-5 mt-4 w-full">
@@ -53,10 +53,10 @@
             group and are interested in collaboration:
           </p>
           <a
-            href="mailto:letsconnect@lifelinesproject.com"
+            href="mailto:letsconnect@sophiaathena.com"
             class="text-primary"
           >
-            letsconnect@lifelinesproject.com
+            letsconnect@sophiaathena.com
           </a>
 
           <span class="px-5 mt-4 w-full">
