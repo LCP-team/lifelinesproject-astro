@@ -12,7 +12,7 @@
             "<b>our</b>") is a non-profit project dedicated to supporting
             Canadians living abroad. This Privacy Policy explains how we
             collect, use, store, and protect your personal information when you
-            use our website and services at <b>lifelinesproject.com</b>.
+            use our website and services at <b>sophiaathena.com</b>.
           </p>
           <p>
             By using LifeLines, you agree to the practices described in this
@@ -40,7 +40,7 @@
             </li>
             <li>
               <b>Communications:</b> If you contact us at
-              support@lifelinesproject.com, we retain that correspondence.
+              support@sophiaathena.com, we retain that correspondence.
             </li>
           </ul>
 
@@ -211,8 +211,8 @@
             <li>
               You may request deletion of your account and all associated data
               by emailing us at
-              <a href="mailto:support@lifelinesproject.com" class="text-primary"
-                >support@lifelinesproject.com</a
+              <a href="mailto:support@sophiaathena.com" class="text-primary"
+                >support@sophiaathena.com</a
               >. We will process your request within 30 days.
             </li>
           </ul>
@@ -255,8 +255,8 @@
           </ul>
           <p>
             To exercise any of these rights, contact us at
-            <a href="mailto:support@lifelinesproject.com" class="text-primary"
-              >support@lifelinesproject.com</a
+            <a href="mailto:support@sophiaathena.com" class="text-primary"
+              >support@sophiaathena.com</a
             >.
           </p>
         </section>
@@ -297,8 +297,8 @@
           </p>
           <p>
             <b>LifeLines Canada</b><br />
-            <a href="mailto:support@lifelinesproject.com" class="text-primary"
-              >support@lifelinesproject.com</a
+            <a href="mailto:support@sophiaathena.com" class="text-primary"
+              >support@sophiaathena.com</a
             >
           </p>
         </section>
