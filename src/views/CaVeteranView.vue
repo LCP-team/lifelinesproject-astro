@@ -1,14 +1,15 @@
 <template>
   <BaseLayout title="CA - Veterans">
     <div class="container mx-auto px-3 lg:px-32 pb-8">
-      <RouterLink to="/veterans" class="text-primary underline font-medium inline-block mt-10">
+      <RouterLink
+        to="/veterans"
+        class="text-primary underline font-medium inline-block mt-10"
+      >
         <span class="mr-2">←</span>
         Back to list
       </RouterLink>
 
-      <h3 class="text-2xl font-medium mt-10">
-        Suicide and Crisis Hotlines
-      </h3>
+      <h3 class="text-2xl font-medium mt-10">Suicide and Crisis Hotlines</h3>
 
       <div class="flex flex-row items-center mt-4 gap-3">
         <img
@@ -24,7 +25,10 @@
 
       <ul class="list-disc text-lg space-y-4 ms-5 md:ms-0 external-link">
         <li>
-          <a href="https://www.veterans.gc.ca/en/contact-us/talk-mental-health-professional#02">Veterans Affairs Canada</a>
+          <a
+            href="https://www.veterans.gc.ca/en/contact-us/talk-mental-health-professional#02"
+            >Veterans Affairs Canada</a
+          >
         </li>
         <li>Call: <a href="tel:18002687708">18002687708</a></li>
       </ul>
@@ -32,23 +36,26 @@
       <div class="border-t w-full my-24 border-gray-400"></div>
 
       <p class="text-md">
-        Our crisis and suicide hotline directory is always growing and improving.
-        If you notice something missing or incorrect, or know a resource we should include,
-        we would truly appreciate you letting us know at
-        <a href="mailto:connect@sophiaathena.com" class="underline font-medium text-primary">
-          connect@sophiaathena.com
-        </a>.
-        Together, we can help make support easier to find.
+        Our crisis and suicide hotline directory is always growing and
+        improving. If you notice something missing or incorrect, or know a
+        resource we should include, we would truly appreciate you letting us
+        know at
+        <a
+          href="mailto:connect@lifelinesproject.com"
+          class="underline font-medium text-primary"
+        >
+          connect@lifelinesproject.com </a
+        >. Together, we can help make support easier to find.
       </p>
     </div>
   </BaseLayout>
 </template>
 
 <script setup lang="ts">
-import BaseLayout from '../layouts/BaseLayout.vue'
-import { useCacheControl } from '../composables/useCacheControl'
+import BaseLayout from "../layouts/BaseLayout.vue";
+import { useCacheControl } from "../composables/useCacheControl";
 
-useCacheControl('public, s-maxage=3600, stale-while-revalidate=86400')
+useCacheControl("public, s-maxage=3600, stale-while-revalidate=86400");
 </script>
 
 <style scoped>

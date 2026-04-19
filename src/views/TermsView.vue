@@ -10,7 +10,7 @@
           <p>
             By accessing or using the LifeLines Canada platform
             ("<b>LifeLines</b>", "<b>we</b>", "<b>us</b>", or "<b>our</b>") at
-            <b>sophiaathena.com</b>, you agree to be bound by these Terms of
+            <b>lifelinesproject.com</b>, you agree to be bound by these Terms of
             Use ("<b>Terms</b>"). If you do not agree to these Terms, you must
             not use our services.
           </p>
@@ -87,8 +87,8 @@
             </li>
             <li>
               You must notify us immediately at
-              <a href="mailto:support@sophiaathena.com" class="text-primary"
-                >support@sophiaathena.com</a
+              <a href="mailto:support@lifelinesproject.com" class="text-primary"
+                >support@lifelinesproject.com</a
               >
               if you suspect unauthorized use of your account.
             </li>
@@ -223,7 +223,7 @@
         <section class="flex flex-col gap-3">
           <h2 class="text-xl font-bold">8. Intellectual Property</h2>
           <p>
-            All content on sophiaathena.com — including text, images, logos,
+            All content on lifelinesproject.com — including text, images, logos,
             and design — is the property of LifeLines Canada or its content
             contributors and is protected by applicable copyright laws.
           </p>
@@ -281,8 +281,8 @@
           </p>
           <p>
             You may close your account at any time by contacting us at
-            <a href="mailto:support@sophiaathena.com" class="text-primary"
-              >support@sophiaathena.com</a
+            <a href="mailto:support@lifelinesproject.com" class="text-primary"
+              >support@lifelinesproject.com</a
             >.
           </p>
         </section>
@@ -317,8 +317,8 @@
           <p>If you have any questions about these Terms, please contact us:</p>
           <p>
             <b>LifeLines Canada</b><br />
-            <a href="mailto:support@sophiaathena.com" class="text-primary"
-              >support@sophiaathena.com</a
+            <a href="mailto:support@lifelinesproject.com" class="text-primary"
+              >support@lifelinesproject.com</a
             >
           </p>
         </section>
