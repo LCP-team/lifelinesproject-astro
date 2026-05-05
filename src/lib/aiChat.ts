@@ -40,8 +40,33 @@ export type AiChatStatusResponse = {
     sessionStartPath: string;
     messagePath: string;
     sessionClosePath: string;
+    historyPath: string;
+    systemTimelinePath: string;
   };
   errorMessage?: string;
+};
+
+export type AiChatHistoryItem = {
+  id: string;
+  role: "user" | "assistant" | "system";
+  content: string;
+  recordedAt: string;
+  sessionId: string | null;
+  boundaryType: string | null;
+};
+
+export type AiChatHistoryResponse = {
+  items: AiChatHistoryItem[];
+  nextCursor: string | null;
+  activeSessionId: string | null;
+  traceId: string;
+  recordedAt: string;
+};
+
+export type AiChatSystemEntryResponse = {
+  item: AiChatHistoryItem;
+  traceId: string;
+  recordedAt: string;
 };
 
 export type StartAiChatSessionPayload = {
@@ -50,6 +75,7 @@ export type StartAiChatSessionPayload = {
   personality?: number;
   language?: AiChatLanguage;
   greeting?: boolean;
+  memoryEnabled?: boolean;
 };
 
 export type SendAiChatMessagePayload = {
@@ -57,6 +83,7 @@ export type SendAiChatMessagePayload = {
   message: string;
   personality?: number;
   language?: AiChatLanguage;
+  memoryEnabled?: boolean;
 };
 
 export const createAiChatTraceId = (sessionId?: string) => {
@@ -101,12 +128,50 @@ export const getAiChatStatus = async (traceId: string) => {
   return response.data;
 };
 
+export const getAiChatHistory = async (
+  options: { cursor?: string; limit?: number },
+  traceId: string,
+) => {
+  const response = await api.get<AiChatHistoryResponse>("/ai-chat/history", {
+    headers: {
+      "X-Trace-Id": traceId,
+    },
+    params: {
+      cursor: options.cursor,
+      limit: options.limit,
+    },
+  });
+
+  return response.data;
+};
+
 export const sendAiChatMessage = async (
   payload: SendAiChatMessagePayload,
   traceId: string,
 ) => {
   const response = await api.post<AiChatTurnResponse>(
     "/ai-chat/messages",
+    payload,
+    {
+      headers: {
+        "X-Trace-Id": traceId,
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const createAiChatSystemEntry = async (
+  payload: {
+    sessionId: string;
+    content: string;
+    boundaryType: "memory-on" | "memory-off" | "session-start" | "session-end";
+  },
+  traceId: string,
+) => {
+  const response = await api.post<AiChatSystemEntryResponse>(
+    "/ai-chat/timeline/system",
     payload,
     {
       headers: {

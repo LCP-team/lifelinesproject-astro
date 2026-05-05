@@ -70,17 +70,68 @@
                       </p>
                     </div>
                   </div>
+
+                  <div class="mt-4 inline-flex rounded-full border border-slate-200 bg-slate-100/80 p-1">
+                    <button
+                      type="button"
+                      class="rounded-full px-3 py-2 text-xs font-semibold transition sm:px-4"
+                      :class="
+                        memoryEnabled
+                          ? 'bg-white text-slate-900 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-700'
+                      "
+                      :disabled="busy || updatingMemoryMode"
+                      @click="handleMemoryModeChange(true)"
+                    >
+                      Memory on
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-full px-3 py-2 text-xs font-semibold transition sm:px-4"
+                      :class="
+                        !memoryEnabled
+                          ? 'bg-white text-slate-900 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-700'
+                      "
+                      :disabled="busy || updatingMemoryMode"
+                      @click="handleMemoryModeChange(false)"
+                    >
+                      Memory off
+                    </button>
+                  </div>
                 </div>
 
-                <button
-                  v-if="sessionId"
-                  type="button"
-                  class="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-                  :disabled="busy"
-                  @click="handleEndSession"
-                >
-                  {{ busy ? "Working..." : "End chat" }}
-                </button>
+                <div class="flex flex-wrap items-center gap-3">
+                  <div
+                    class="rounded-full border px-4 py-2 text-left"
+                    :class="
+                      memoryEnabled
+                        ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+                        : 'border-amber-200 bg-amber-50 text-amber-900'
+                    "
+                  >
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em]">
+                      {{ memoryEnabled ? "Memory on" : "Memory off" }}
+                    </p>
+                    <p class="mt-1 text-xs">
+                      {{
+                        memoryEnabled
+                          ? "Sam remembers saved context"
+                          : "Sam replies only to this session"
+                      }}
+                    </p>
+                  </div>
+
+                  <button
+                    v-if="sessionId"
+                    type="button"
+                    class="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="busy"
+                    @click="handleEndSession"
+                  >
+                    {{ busy ? "Working..." : "End chat" }}
+                  </button>
+                </div>
               </div>
 
               <div
@@ -93,8 +144,28 @@
 
             <div
               ref="messagesContainer"
+              @scroll="handleMessagesScroll"
               class="flex min-h-[520px] max-h-[62vh] flex-col gap-4 overflow-y-auto bg-[linear-gradient(180deg,rgba(241,245,249,0.55),rgba(255,255,255,0.95))] px-4 py-6 sm:px-6"
             >
+              <div v-if="historyCursor || loadingOlder" class="flex justify-center">
+                <button
+                  v-if="historyCursor"
+                  type="button"
+                  class="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                  :disabled="loadingOlder || busy"
+                  @click="loadOlderHistory"
+                >
+                  {{ loadingOlder ? "Loading earlier messages..." : "Load earlier messages" }}
+                </button>
+
+                <div
+                  v-else-if="loadingOlder"
+                  class="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-500"
+                >
+                  Loading earlier messages...
+                </div>
+              </div>
+
               <div
                 v-if="messages.length === 0"
                 class="my-auto rounded-[28px] border border-dashed border-slate-300 bg-white/80 px-6 py-10 text-center shadow-sm"
@@ -137,30 +208,46 @@
                 </div>
               </div>
 
-              <article
+              <div
                 v-for="message in messages"
                 :key="message.id"
-                class="max-w-[86%] rounded-[26px] px-4 py-3 shadow-sm sm:px-5"
-                :class="
-                  message.role === 'user'
-                    ? 'ml-auto bg-sky-200 text-slate-800'
-                    : 'border border-slate-200 bg-white text-slate-900'
-                "
               >
-                <p class="whitespace-pre-wrap text-sm leading-7 sm:text-[15px]">
-                  {{ message.content }}
-                </p>
-                <p
-                  class="mt-2 text-right text-xs"
+                <div
+                  v-if="message.role === 'system'"
+                  class="mx-auto max-w-[92%] rounded-2xl border border-slate-200 bg-slate-100/80 px-4 py-3 text-center text-sm text-slate-600 shadow-sm sm:max-w-[78%]"
+                >
+                  <p class="whitespace-pre-wrap font-medium leading-6">
+                    {{ message.content }}
+                  </p>
+                  <p class="mt-2 text-[11px] uppercase tracking-[0.18em] text-slate-400">
+                    {{ formatTime(message.recordedAt) }}
+                  </p>
+                </div>
+
+                <article
+                  v-else
+                  class="max-w-[86%] rounded-[26px] px-4 py-3 shadow-sm sm:px-5"
                   :class="
                     message.role === 'user'
-                      ? 'text-slate-500'
-                      : 'text-slate-400'
+                      ? 'ml-auto bg-sky-200 text-slate-800'
+                      : 'border border-slate-200 bg-white text-slate-900'
                   "
                 >
-                  {{ formatTime(message.recordedAt) }}
-                </p>
-              </article>
+                  <p class="whitespace-pre-wrap text-sm leading-7 sm:text-[15px]">
+                    {{ message.content }}
+                  </p>
+                  <p
+                    class="mt-2 text-right text-xs"
+                    :class="
+                      message.role === 'user'
+                        ? 'text-slate-500'
+                        : 'text-slate-400'
+                    "
+                  >
+                    {{ formatTime(message.recordedAt) }}
+                  </p>
+                </article>
+              </div>
 
               <div
                 v-if="busy"
@@ -233,10 +320,13 @@ import { computed, nextTick, onMounted, ref, watch } from "vue";
 import BaseLayout from "../layouts/BaseLayout.vue";
 import {
   closeAiChatSession,
+  createAiChatSystemEntry,
   createAiChatTraceId,
+  getAiChatHistory,
   isAiChatDevModeEnabled,
   sendAiChatMessage,
   startAiChatSession,
+  type AiChatHistoryItem,
   type AiChatLanguage,
   type AiChatTurnResponse,
 } from "../lib/aiChat";
@@ -244,12 +334,14 @@ import { useAuthStore } from "../stores/auth";
 
 type ChatMessage = {
   id: string;
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "system";
   content: string;
   recordedAt: string;
   traceId: string;
   tokenUsage?: AiChatTurnResponse["tokenUsage"];
 };
+
+const MEMORY_MODE_STORAGE_KEY = "lifelines-ai:memory-mode";
 
 const auth = useAuthStore();
 const messages = ref<ChatMessage[]>([]);
@@ -258,9 +350,13 @@ const sessionId = ref<string | null>(null);
 const draftMessage = ref("");
 const errorMessage = ref("");
 const busy = ref(false);
+const loadingOlder = ref(false);
+const updatingMemoryMode = ref(false);
 const autoStartAttempted = ref(false);
 const personality = ref(1);
 const language = ref<AiChatLanguage>("en");
+const memoryEnabled = ref(true);
+const historyCursor = ref<string | null>(null);
 const devMode = computed(() => isAiChatDevModeEnabled());
 const canUseChat = computed(() => Boolean(auth.user) || devMode.value);
 
@@ -274,6 +370,14 @@ const addAssistantMessage = (response: AiChatTurnResponse) => {
     tokenUsage: response.tokenUsage,
   });
 };
+
+const mapHistoryMessage = (message: AiChatHistoryItem): ChatMessage => ({
+  id: message.id,
+  role: message.role,
+  content: message.content,
+  recordedAt: message.recordedAt,
+  traceId: `history:${message.id}`,
+});
 
 const scrollMessagesToBottom = async () => {
   await nextTick();
@@ -296,6 +400,68 @@ const getErrorMessage = (error: unknown) => {
   );
 };
 
+const persistMemoryMode = (enabled: boolean) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.sessionStorage.setItem(MEMORY_MODE_STORAGE_KEY, enabled ? "on" : "off");
+};
+
+const restoreMemoryMode = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const storedValue = window.sessionStorage.getItem(MEMORY_MODE_STORAGE_KEY);
+  if (storedValue === "off") {
+    memoryEnabled.value = false;
+  } else if (storedValue === "on") {
+    memoryEnabled.value = true;
+  }
+};
+
+const handleMemoryModeChange = async (enabled: boolean) => {
+  if (memoryEnabled.value === enabled) {
+    return;
+  }
+
+  if (!sessionId.value) {
+    memoryEnabled.value = enabled;
+    persistMemoryMode(enabled);
+    return;
+  }
+
+  if (updatingMemoryMode.value) {
+    return;
+  }
+
+  updatingMemoryMode.value = true;
+  errorMessage.value = "";
+
+  try {
+    const response = await createAiChatSystemEntry(
+      {
+        sessionId: sessionId.value,
+        content: enabled
+          ? "Memory turned on\nSam can use your saved context again."
+          : "Memory turned off\nSam will reply only from messages sent after this point.",
+        boundaryType: enabled ? "memory-on" : "memory-off",
+      },
+      createAiChatTraceId(sessionId.value),
+    );
+
+    memoryEnabled.value = enabled;
+    persistMemoryMode(enabled);
+    messages.value.push(mapHistoryMessage(response.item));
+    await scrollMessagesToBottom();
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error);
+  } finally {
+    updatingMemoryMode.value = false;
+  }
+};
+
 const handleStartSession = async () => {
   if (!canUseChat.value || busy.value || sessionId.value) {
     return;
@@ -304,7 +470,6 @@ const handleStartSession = async () => {
   const traceId = createAiChatTraceId("session");
   busy.value = true;
   errorMessage.value = "";
-  messages.value = [];
 
   try {
     const response = await startAiChatSession(
@@ -312,12 +477,35 @@ const handleStartSession = async () => {
         message: "<init>",
         personality: personality.value,
         language: language.value,
+        memoryEnabled: memoryEnabled.value,
       },
       traceId,
     );
 
     sessionId.value = response.sessionId;
-    addAssistantMessage(response);
+    busy.value = false;
+    await loadChatHistory();
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error);
+  } finally {
+    busy.value = false;
+  }
+};
+
+const loadChatHistory = async () => {
+  if (!canUseChat.value || busy.value) {
+    return;
+  }
+
+  const traceId = createAiChatTraceId("history");
+  busy.value = true;
+  errorMessage.value = "";
+
+  try {
+    const response = await getAiChatHistory({ limit: 60 }, traceId);
+    messages.value = response.items.map(mapHistoryMessage);
+    historyCursor.value = response.nextCursor;
+    sessionId.value = response.activeSessionId;
     await scrollMessagesToBottom();
   } catch (error) {
     errorMessage.value = getErrorMessage(error);
@@ -326,18 +514,69 @@ const handleStartSession = async () => {
   }
 };
 
+const loadOlderHistory = async () => {
+  if (!canUseChat.value || !historyCursor.value || loadingOlder.value) {
+    return;
+  }
+
+  const container = messagesContainer.value;
+  const previousHeight = container?.scrollHeight ?? 0;
+  const previousTop = container?.scrollTop ?? 0;
+  const traceId = createAiChatTraceId("history-page");
+
+  loadingOlder.value = true;
+  errorMessage.value = "";
+
+  try {
+    const response = await getAiChatHistory(
+      { cursor: historyCursor.value, limit: 40 },
+      traceId,
+    );
+    const knownIds = new Set(messages.value.map((message) => message.id));
+    const olderMessages = response.items
+      .map(mapHistoryMessage)
+      .filter((message) => !knownIds.has(message.id));
+
+    messages.value = [...olderMessages, ...messages.value];
+    historyCursor.value = response.nextCursor;
+
+    await nextTick();
+    if (container) {
+      container.scrollTop = previousTop + (container.scrollHeight - previousHeight);
+    }
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error);
+  } finally {
+    loadingOlder.value = false;
+  }
+};
+
+const handleMessagesScroll = () => {
+  const container = messagesContainer.value;
+  if (!container || loadingOlder.value || !historyCursor.value) {
+    return;
+  }
+
+  if (container.scrollTop <= 80) {
+    void loadOlderHistory();
+  }
+};
+
 const ensureAutoStartedSession = async () => {
   if (
     autoStartAttempted.value ||
     !canUseChat.value ||
-    sessionId.value ||
     busy.value
   ) {
     return;
   }
 
   autoStartAttempted.value = true;
-  await handleStartSession();
+  await loadChatHistory();
+
+  if (!sessionId.value) {
+    await handleStartSession();
+  }
 };
 
 const retryAutoStart = async () => {
@@ -372,6 +611,7 @@ const handleSendMessage = async () => {
         message,
         personality: personality.value,
         language: language.value,
+        memoryEnabled: memoryEnabled.value,
       },
       traceId,
     );
@@ -397,9 +637,9 @@ const handleEndSession = async () => {
 
   try {
     await closeAiChatSession(currentSessionId, traceId);
-    sessionId.value = null;
-    messages.value = [];
     draftMessage.value = "";
+    busy.value = false;
+    await loadChatHistory();
   } catch (error) {
     errorMessage.value = getErrorMessage(error);
   } finally {
@@ -414,6 +654,7 @@ const formatTime = (value: string) =>
   }).format(new Date(value));
 
 onMounted(() => {
+  restoreMemoryMode();
   void ensureAutoStartedSession();
 });
 
