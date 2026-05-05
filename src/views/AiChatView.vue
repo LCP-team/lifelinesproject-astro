@@ -145,24 +145,34 @@
             <div
               ref="messagesContainer"
               @scroll="handleMessagesScroll"
-              class="flex min-h-[520px] max-h-[62vh] flex-col gap-4 overflow-y-auto bg-[linear-gradient(180deg,rgba(241,245,249,0.55),rgba(255,255,255,0.95))] px-4 py-6 sm:px-6"
+              class="messages-area flex min-h-[520px] max-h-[62vh] flex-col gap-4 overflow-y-auto bg-[linear-gradient(180deg,rgba(241,245,249,0.55),rgba(255,255,255,0.95))] px-4 py-6 sm:px-6"
             >
-              <div v-if="historyCursor || loadingOlder" class="flex justify-center">
-                <button
-                  v-if="historyCursor"
-                  type="button"
-                  class="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-                  :disabled="loadingOlder || busy"
-                  @click="loadOlderHistory"
-                >
-                  {{ loadingOlder ? "Loading earlier messages..." : "Load earlier messages" }}
-                </button>
-
+              <div v-if="showOlderHistoryHint" class="flex justify-center">
                 <div
-                  v-else-if="loadingOlder"
+                  v-if="loadingOlder"
                   class="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-500"
                 >
                   Loading earlier messages...
+                </div>
+                <div
+                  v-else
+                  class="flex flex-col items-center gap-1 text-center text-[11px] font-medium text-slate-400"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 19V5m0 0-5 5m5-5 5 5"
+                    />
+                  </svg>
+                  <span>{{ olderHistoryHintLabel }}</span>
                 </div>
               </div>
 
@@ -338,6 +348,8 @@ type ChatMessage = {
   content: string;
   recordedAt: string;
   traceId: string;
+  sessionId?: string | null;
+  boundaryType?: string | null;
   tokenUsage?: AiChatTurnResponse["tokenUsage"];
 };
 
@@ -345,6 +357,7 @@ const MEMORY_MODE_STORAGE_KEY = "lifelines-ai:memory-mode";
 
 const auth = useAuthStore();
 const messages = ref<ChatMessage[]>([]);
+const hiddenHistoryMessages = ref<ChatMessage[]>([]);
 const messagesContainer = ref<HTMLElement | null>(null);
 const sessionId = ref<string | null>(null);
 const draftMessage = ref("");
@@ -353,12 +366,28 @@ const busy = ref(false);
 const loadingOlder = ref(false);
 const updatingMemoryMode = ref(false);
 const autoStartAttempted = ref(false);
+const hasLoadedHistory = ref(false);
 const personality = ref(1);
 const language = ref<AiChatLanguage>("en");
 const memoryEnabled = ref(true);
 const historyCursor = ref<string | null>(null);
 const devMode = computed(() => isAiChatDevModeEnabled());
 const canUseChat = computed(() => Boolean(auth.user) || devMode.value);
+const hasHiddenHistory = computed(() => hiddenHistoryMessages.value.length > 0);
+const showOlderHistoryHint = computed(
+  () => loadingOlder.value || hasHiddenHistory.value || Boolean(historyCursor.value),
+);
+const olderHistoryHintLabel = computed(() => {
+  if (hasHiddenHistory.value) {
+    return "Scroll up to show earlier messages";
+  }
+
+  if (historyCursor.value) {
+    return "Scroll up to load earlier messages";
+  }
+
+  return "";
+});
 
 const addAssistantMessage = (response: AiChatTurnResponse) => {
   messages.value.push({
@@ -377,7 +406,26 @@ const mapHistoryMessage = (message: AiChatHistoryItem): ChatMessage => ({
   content: message.content,
   recordedAt: message.recordedAt,
   traceId: `history:${message.id}`,
+  sessionId: message.sessionId,
+  boundaryType: message.boundaryType,
 });
+
+const shouldHideHistoryMessage = (
+  message: Pick<ChatMessage, "role" | "content" | "boundaryType">,
+) => {
+  if (message.role !== "system") {
+    return false;
+  }
+
+  if (message.boundaryType === "session-start") {
+    return true;
+  }
+
+  return (
+    message.content.trim() ===
+    "New session started\nSam is continuing the conversation in a new active session."
+  );
+};
 
 const scrollMessagesToBottom = async () => {
   await nextTick();
@@ -385,6 +433,35 @@ const scrollMessagesToBottom = async () => {
   if (container) {
     container.scrollTop = container.scrollHeight;
   }
+};
+
+const revealHiddenHistory = async () => {
+  if (!hiddenHistoryMessages.value.length) {
+    return false;
+  }
+
+  const container = messagesContainer.value;
+  const previousHeight = container?.scrollHeight ?? 0;
+  const previousTop = container?.scrollTop ?? 0;
+  const knownIds = new Set(messages.value.map((message) => message.id));
+  const olderMessages = hiddenHistoryMessages.value.filter(
+    (message) => !knownIds.has(message.id),
+  );
+
+  hiddenHistoryMessages.value = [];
+
+  if (!olderMessages.length) {
+    return false;
+  }
+
+  messages.value = [...olderMessages, ...messages.value];
+  await nextTick();
+
+  if (container) {
+    container.scrollTop = previousTop + (container.scrollHeight - previousHeight);
+  }
+
+  return true;
 };
 
 const getErrorMessage = (error: unknown) => {
@@ -484,7 +561,7 @@ const handleStartSession = async () => {
 
     sessionId.value = response.sessionId;
     busy.value = false;
-    await loadChatHistory();
+    await loadHistoryPage();
   } catch (error) {
     errorMessage.value = getErrorMessage(error);
   } finally {
@@ -492,68 +569,91 @@ const handleStartSession = async () => {
   }
 };
 
-const loadChatHistory = async () => {
-  if (!canUseChat.value || busy.value) {
-    return;
-  }
-
-  const traceId = createAiChatTraceId("history");
-  busy.value = true;
-  errorMessage.value = "";
-
-  try {
-    const response = await getAiChatHistory({ limit: 60 }, traceId);
-    messages.value = response.items.map(mapHistoryMessage);
-    historyCursor.value = response.nextCursor;
-    sessionId.value = response.activeSessionId;
-    await scrollMessagesToBottom();
-  } catch (error) {
-    errorMessage.value = getErrorMessage(error);
-  } finally {
-    busy.value = false;
-  }
-};
-
-const loadOlderHistory = async () => {
-  if (!canUseChat.value || !historyCursor.value || loadingOlder.value) {
+const loadHistoryPage = async ({
+  cursor,
+  preserveScroll = false,
+}: {
+  cursor?: string;
+  preserveScroll?: boolean;
+} = {}) => {
+  if (!canUseChat.value || loadingOlder.value) {
     return;
   }
 
   const container = messagesContainer.value;
-  const previousHeight = container?.scrollHeight ?? 0;
-  const previousTop = container?.scrollTop ?? 0;
-  const traceId = createAiChatTraceId("history-page");
-
+  const previousHeight = preserveScroll && container ? container.scrollHeight : 0;
+  const previousTop = preserveScroll && container ? container.scrollTop : 0;
+  const traceId = createAiChatTraceId(cursor ?? "history");
   loadingOlder.value = true;
   errorMessage.value = "";
 
   try {
     const response = await getAiChatHistory(
-      { cursor: historyCursor.value, limit: 40 },
+      { cursor, limit: cursor ? 40 : 60 },
       traceId,
     );
-    const knownIds = new Set(messages.value.map((message) => message.id));
-    const olderMessages = response.items
+    const activeSessionId = response.activeSessionId ?? sessionId.value;
+    const loadedMessages = response.items
       .map(mapHistoryMessage)
-      .filter((message) => !knownIds.has(message.id));
+      .filter((message) => !shouldHideHistoryMessage(message));
+
+    historyCursor.value = response.nextCursor;
+    sessionId.value = activeSessionId;
+
+    if (!cursor && !preserveScroll) {
+      if (!activeSessionId) {
+        messages.value = [];
+        hiddenHistoryMessages.value = loadedMessages;
+      } else {
+        messages.value = loadedMessages.filter(
+          (message) => message.sessionId === activeSessionId,
+        );
+        hiddenHistoryMessages.value = loadedMessages.filter(
+          (message) => message.sessionId !== activeSessionId,
+        );
+      }
+
+      await scrollMessagesToBottom();
+      return;
+    }
+
+    const knownIds = new Set([
+      ...messages.value.map((message) => message.id),
+      ...hiddenHistoryMessages.value.map((message) => message.id),
+    ]);
+    const olderMessages = loadedMessages.filter(
+      (message) => !knownIds.has(message.id),
+    );
 
     messages.value = [...olderMessages, ...messages.value];
-    historyCursor.value = response.nextCursor;
 
     await nextTick();
-    if (container) {
+    if (preserveScroll && container) {
       container.scrollTop = previousTop + (container.scrollHeight - previousHeight);
     }
   } catch (error) {
     errorMessage.value = getErrorMessage(error);
   } finally {
     loadingOlder.value = false;
+    hasLoadedHistory.value = true;
   }
+};
+
+const loadOlderHistory = async () => {
+  if (await revealHiddenHistory()) {
+    return;
+  }
+
+  if (!canUseChat.value || !historyCursor.value || loadingOlder.value) {
+    return;
+  }
+
+  await loadHistoryPage({ cursor: historyCursor.value, preserveScroll: true });
 };
 
 const handleMessagesScroll = () => {
   const container = messagesContainer.value;
-  if (!container || loadingOlder.value || !historyCursor.value) {
+  if (!container || loadingOlder.value) {
     return;
   }
 
@@ -572,7 +672,10 @@ const ensureAutoStartedSession = async () => {
   }
 
   autoStartAttempted.value = true;
-  await loadChatHistory();
+
+  if (!hasLoadedHistory.value) {
+    await loadHistoryPage();
+  }
 
   if (!sessionId.value) {
     await handleStartSession();
@@ -580,6 +683,10 @@ const ensureAutoStartedSession = async () => {
 };
 
 const retryAutoStart = async () => {
+  if (!hasLoadedHistory.value) {
+    await loadHistoryPage();
+  }
+
   autoStartAttempted.value = false;
   await ensureAutoStartedSession();
 };
@@ -638,8 +745,7 @@ const handleEndSession = async () => {
   try {
     await closeAiChatSession(currentSessionId, traceId);
     draftMessage.value = "";
-    busy.value = false;
-    await loadChatHistory();
+    sessionId.value = null;
   } catch (error) {
     errorMessage.value = getErrorMessage(error);
   } finally {
@@ -664,3 +770,10 @@ watch(canUseChat, (value) => {
   }
 });
 </script>
+
+<style scoped>
+.messages-area {
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+</style>
